@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="logo">
+    <img src="assets/imgs/visit.png"/>
+  </div>
+  <div id="login-form">
+    <ion-item class="login-form-element">
+      <ion-input type="text" placeholder="Username" ></ion-input>
+    </ion-item>
+
+    <ion-item class="login-form-element">
+      <ion-input type="password" placeholder="Password" ></ion-input>
+    </ion-item>
+  </div>
+
+  <ion-button color="primary" full round (click)="login()" class="login-form-button">Login</ion-button>
+</ion-content>
