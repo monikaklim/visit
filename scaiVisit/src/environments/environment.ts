@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:8080/visit",
+  apiUrl: "http://localhost:8080/visit/",
   username: "admin",
   password: "password"
 };

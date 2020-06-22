@@ -12,7 +12,7 @@ private apiUrl:string = environment.apiUrl;
 
 constructor(public http:HttpClient) { }
 
-login(user, pw) {
+login(user:string, pw:string) {
   let headers = new HttpHeaders().set("Content-Type", "application/json");
   let req = { username: user, password: pw };
   return this.http.post(this.apiUrl + "signin", req, {

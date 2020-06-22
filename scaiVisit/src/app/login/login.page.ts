@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import * as localforage from "localforage";
-import { NavController, NavParams, LoadingController, AlertController } from '@ionic/angular';
+import { NavController, LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from './auth.service';
 import { SharedService } from './../shared/shared.service';
+import constants from "../../config/constants";
+import { HomePage } from '../home/home.page';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,15 +14,20 @@ import { SharedService } from './../shared/shared.service';
 })
 export class LoginPage {
 
-  username: string = ""; //SCAI1
-  password: string = ""; //Scai$scai1
+ //SCAI1
+  //Scai$scai1
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService:AuthService, public sharedService:SharedService,
+  constructor(public navCtrl: NavController, public authService:AuthService, public sharedService:SharedService,
     public loadingController : LoadingController, public alertController : AlertController) {
   }
 
-  login(){
-    if(this.username === '' || this.password === '') {
+  onLogin(form:NgForm){
+    if (!form.valid) {
+      return;
+    }
+    const username = form.value.username;
+    const password = form.value.password;
+    if(username === '' || password === '') {
       this.alertController.create({
         header:'Login Error', 
         subHeader:'All fields are required',
@@ -28,12 +36,12 @@ export class LoginPage {
       return;
     }     
 
-    this.loadingController.create({
+   this.loadingController.create({
       message: "Logging in..."
-    }).then(loadingEl => {loadingEl.present()});
-  
-
-      this.authService.login(this.username, this.password).subscribe( res => {
+    }).then(loadingEl => {
+      loadingEl.present();
+    
+      this.authService.login(username, password).subscribe( res => {
         if (res && res.status == 200){
               this.authService.setToken(res.body["token"]);
               localforage.setItem("token", res.body["token"]);
@@ -41,74 +49,80 @@ export class LoginPage {
                 if(response.status == 200){
                   this.sharedService.setSedi(response.body["location"]);
                 }else if(response.status == 403){
-
+                  
                 }
               })
               localforage.getItem("options").then((result) => {
                 if(result){
-                  this.sharedProvider.setSede(result["domain"]);
-                  this.navCtrl.setRoot(RegistrationsPage);
+                  this.sharedService.setSede(result["domain"]);
+                  this.navCtrl.navigateRoot('home');
+                  loadingEl.dismiss();
                 }else{
                   let opzioni = {
                     domain : constants.sede
                   }
-                  this.sharedProvider.setSede(constants.sede);
+                  this.sharedService.setSede(constants.sede);
                   localforage.setItem("options", opzioni);
-                  this.navCtrl.setRoot(RegistrationsPage);
+                  this.navCtrl.navigateRoot('home');
+                  loadingEl.dismiss();
                 }
               })
-              /**/
-              // this.navCtrl.setRoot( RegistrationsPage );  
-              loader.dismissAll();
         }else{
-          this.username = '';
-          this.password = '';
-          let alert = this.alertController.create({
+          
+           this.alertController.create({
             header:'Login Error', 
             subHeader:'Credenziali errate',
             buttons:['OK']
-          });
-          alert.present();
-          loader.dismissAll();
+          }).then(alertEl => {alertEl.present()});
+         
+          loadingEl.dismiss();
           return;
         }
       },
       error => {
-        this.username = '';
-        this.password = '';
+     
         console.log('onError login' + error);
         console.log(error);
         if (error.status == 0){
-          let alert = this.alertController.create({
+         this.alertController.create({
             header:'Server Error', 
             subHeader:'Server non raggiungibile',
             buttons:['OK']
+          }).then(alertEl => {
+             alertEl.present();
+            loadingEl.dismiss();
           });
-          alert.present();
-          loader.dismissAll();
           return;
         }else if (error.status == 401){
-          let alert = this.alertController.create({
+         this.alertController.create({
            header:'Login Error', 
             subHeader:'Credenziali errate',
             buttons:['OK']
+          }).then(alertEl => {
+            alertEl.present();
+            loadingEl.dismiss();
           });
-          alert.present();
-          loader.dismissAll();
           return;
         }else{
-          let alert = this.alertController.create({
+           this.alertController.create({
             header:'Error', 
             subHeader:'Unknown Error',
             buttons:['OK']
+          }).then(alertEl => {
+            alertEl.present();
+            loadingEl.dismiss();
           });
-          alert.present();
-          loader.dismissAll();
           return;
         }
       },
       () => console.log('onCompleted login')
+    
     );
+   
+  });
+    form.reset(); 
   }
+  
+
   
 }
