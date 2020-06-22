@@ -33,29 +33,4 @@ return this.token;
 
 
 
-/*
-login() {
-  let headers = new HttpHeaders().set("Content-Type", "application/json");
-  let req = { username: this.username, password: this.password };
-  
-  return this.http.post(this.apiUrl + "token", req, {
-    observe: "response",
-    headers: headers
-  });
-}
-
-
-
-verifytoken() {
-  let headers = new HttpHeaders().set(
-    "Authorization",
-    "Bearer " + this.token
-  );
-  return this.http.get(this.apiUrl + "verifytoken", {
-    observe: "response",
-    headers: headers
-  });
-}
-*/
-
 }
