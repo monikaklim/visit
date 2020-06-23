@@ -3,10 +3,47 @@
     <ion-buttons slot="start">
       <ion-menu-button  color = "light"></ion-menu-button>
     </ion-buttons>
-    <ion-title color = "light">Utenti</ion-title>
+    <ion-title color = "light">Visitatori</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class = "ion-padding">
+<ion-searchbar animated placeholder = "Cerca visitatore..." ></ion-searchbar>
+<ion-card>
+  <ion-card-header class = "ion-text-center">
+     Elenco visitatori
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-row class="ion-table-header">
+      <ion-col>Nome</ion-col>
+      <ion-col>Cognome</ion-col>
+      <ion-col>Azienda</ion-col>
+      <ion-col>Azione</ion-col>
+    </ion-row>
+  
+   <ion-item
+      class="table-body"
+      *ngFor="
+        let user of users;
+        let i = index
+      "
+    >
+      <ion-row class="table-body-row" >
+        <ion-col>{{ user.firstname }}</ion-col>
+        <ion-col>{{ user.lastname }}</ion-col>
+        <ion-col>{{ user.company }}</ion-col>
+        <ion-col>
+          <button ion-button icon-only >
+            <ion-icon name="log-in"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+  </ion-card-content>
+
+</ion-card>
+
 
 </ion-content>

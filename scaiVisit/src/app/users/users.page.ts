@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./users.page.scss'],
 })
 export class UsersPage implements OnInit {
-
+users = [
+{firstname:"Monika", lastname:"Klim", company:"scai conulting"}
+];
   constructor() { }
 
   ngOnInit() {
