@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {environment} from './../../environments/environment';
+import * as localforage from 'localforage';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,6 @@ login(user:string, pw:string) {
   });
 }
 
-
-
 setToken(token:string){
   this.token = token;
 }
@@ -31,6 +30,9 @@ getToken(){
 return this.token;
 }
 
-
+logout() {
+  localforage.removeItem("token");
+  this.setToken("");
+}
 
 }
