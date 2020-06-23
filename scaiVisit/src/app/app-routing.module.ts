@@ -6,7 +6,7 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -18,6 +18,22 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
     canLoad: [AuthGuard]
   },
+  {
+    path: 'registrations',
+    loadChildren: () => import('./registrations/registrations.module').then( m => m.RegistrationsPageModule),
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then( m => m.UsersPageModule),
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'companies',
+    loadChildren: () => import('./companies/companies.module').then( m => m.CompaniesPageModule),
+    canLoad: [AuthGuard]
+  },
+
 ];
 
 @NgModule({
