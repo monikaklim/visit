@@ -15,11 +15,13 @@ export class AuthGuard implements CanLoad {
     route: Route,
     segments: UrlSegment[]
   ): Observable<boolean> | Promise<boolean> | boolean {
-     if (!localforage.getItem("token")) {
-      return this.router.navigateByUrl('/login');
+    return localforage.getItem("token").then(token => {
+     if (!token) 
+        return this.router.navigateByUrl('/login');
+        else
+      return true;
     }
-    else
-    return true;
+    );
   }
 
 
