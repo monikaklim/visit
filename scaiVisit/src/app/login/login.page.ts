@@ -14,9 +14,6 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginPage {
 
- //SCAI1
-  //Scai$scai1
-
   constructor(public navCtrl: NavController, public authService:AuthService, public sharedService:SharedService,
     public loadingController : LoadingController, public alertController : AlertController) {
   }
@@ -25,19 +22,19 @@ export class LoginPage {
     if (!form.valid) {
       return;
     }
-    const username = form.value.username;
-    const password = form.value.password;
+    const username = form.value.username;   //SCAI1
+    const password = form.value.password;   //Scai$scai1
     if(username === '' || password === '') {
       this.alertController.create({
-        header:'Login Error', 
-        subHeader:'All fields are required',
+        header:'Errore', 
+        subHeader:'Tutti i campi sono obbligatori',
         buttons:['OK']
       }).then(alertEl => {alertEl.present()});
       return;
     }     
 
    this.loadingController.create({
-      message: "Logging in..."
+      message: "Login in corso..."
     }).then(loadingEl => {
       loadingEl.present();
     
@@ -70,7 +67,7 @@ export class LoginPage {
         }else{
           
            this.alertController.create({
-            header:'Login Error', 
+            header:'Errore', 
             subHeader:'Credenziali errate',
             buttons:['OK']
           }).then(alertEl => {alertEl.present()});
@@ -80,12 +77,11 @@ export class LoginPage {
         }
       },
       error => {
-     
-        console.log('onError login' + error);
+        console.error('Login error');
         console.log(error);
         if (error.status == 0){
          this.alertController.create({
-            header:'Server Error', 
+            header:'Errore', 
             subHeader:'Server non raggiungibile',
             buttons:['OK']
           }).then(alertEl => {
@@ -95,7 +91,7 @@ export class LoginPage {
           return;
         }else if (error.status == 401){
          this.alertController.create({
-           header:'Login Error', 
+           header:'Errore', 
             subHeader:'Credenziali errate',
             buttons:['OK']
           }).then(alertEl => {
@@ -105,8 +101,8 @@ export class LoginPage {
           return;
         }else{
            this.alertController.create({
-            header:'Error', 
-            subHeader:'Unknown Error',
+            header:'Errore', 
+            subHeader:'Errore sconosciuto',
             buttons:['OK']
           }).then(alertEl => {
             alertEl.present();
@@ -115,7 +111,7 @@ export class LoginPage {
           return;
         }
       },
-      () => console.log('onCompleted login')
+      () => console.log('Login successful')
     
     );
    
