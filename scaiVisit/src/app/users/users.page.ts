@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersPage implements OnInit {
 users = [
-{firstname:"Monika", lastname:"Klim", company:"scai conulting"}
+{firstname:"Monika", lastname:"Klim", company:"scai consulting"},
+{firstname:"Monika", lastname:"Klim", company:"scai consulting"},
+{firstname:"Monika", lastname:"Klim", company:"scai consulting"},
+{firstname:"Monika", lastname:"Klim", company:"scai consulting"},
+{firstname:"Monika", lastname:"Klim", company:"scai consulting"},
+{firstname:"Monika", lastname:"Klim", company:"scai consulting"},
+{firstname:"Monika", lastname:"Klim", company:"scai consulting"}
 ];
   constructor() { }
 

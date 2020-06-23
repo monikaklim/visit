@@ -9,37 +9,33 @@
 
 <ion-content class = "ion-padding">
 <ion-searchbar animated placeholder = "Cerca visitatore..." ></ion-searchbar>
-<ion-card>
+<ion-card  >
   <ion-card-header class = "ion-text-center">
-     Elenco visitatori
+    <ion-card-title>Elenco Visitatori  </ion-card-title> 
   </ion-card-header>
 
   <ion-card-content>
-    <ion-row class="ion-table-header">
-      <ion-col>Nome</ion-col>
-      <ion-col>Cognome</ion-col>
-      <ion-col>Azienda</ion-col>
-      <ion-col>Azione</ion-col>
+    <ion-grid  size-sm>
+    <ion-row class="ion-table-header ion-margin-bottom">
+      <ion-col><b>Nome</b></ion-col>
+      <ion-col ><b>Cognome</b></ion-col>
+      <ion-col><b>Azienda</b></ion-col>
+      <ion-col><b>Azione</b></ion-col>
     </ion-row>
-  
-   <ion-item
-      class="table-body"
-      *ngFor="
-        let user of users;
-        let i = index
-      "
-    >
-      <ion-row class="table-body-row" >
+
+      <ion-row class="table-body-row"  *ngFor="
+      let user of users;
+      let i = index">
         <ion-col>{{ user.firstname }}</ion-col>
         <ion-col>{{ user.lastname }}</ion-col>
         <ion-col>{{ user.company }}</ion-col>
         <ion-col>
-          <button ion-button icon-only >
-            <ion-icon name="log-in"></ion-icon>
-          </button>
+          <ion-button color = "scaiblue" fill="clear" size="large">
+            <ion-icon name="enter-sharp"></ion-icon>
+          </ion-button>
         </ion-col>
       </ion-row>
-    </ion-item>
+    </ion-grid>
 
   </ion-card-content>
 
