@@ -1,0 +1,40 @@
+
+<ion-content class = "ion-padding">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="8" offset-sm="2" class = "ion-margin">
+        <div id="logo">
+          <ion-img src="assets/imgs/visit.png" alt = ""></ion-img>
+        </div>
+      </ion-col>
+    </ion-row>  
+    <form #f="ngForm" (ngSubmit)="onLogin(f)" >
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+          <ion-item >
+            <ion-label position="floating">Username</ion-label>
+            <ion-input type="text"  name="username" placeholder="Username" required ngModel  #usernameCtrl="ngModel"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password"  name="password" placeholder="Password" required ngModel #passwordCtrl="ngModel"></ion-input>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+        <ion-button type = "submit" color="scaiblue" shape = "round"  expand="block" [disabled]="!f.valid" >Login</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+ 
+</ion-grid>
+
+
+
+
+
+
+</ion-content>
