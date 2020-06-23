@@ -1,3 +1,46 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="start" menuId="first" contentId="main">
+    <ion-header>
+      <ion-toolbar color="scaiblue">
+        <ion-title color ="light">Scai Visit</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list swipeBackEnabled="false">
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/registrations" class ="ion-margin">
+            <ion-icon name="create-outline" slot="start"></ion-icon>
+            <ion-label>Registrazioni</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/users" class ="ion-margin" >
+            <ion-icon name="people-outline" slot="start"></ion-icon>
+            <ion-label>Utenti</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/companies" class ="ion-margin">
+            <ion-icon name="business-outline" slot="start"></ion-icon>
+            <ion-label>Aziende</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/home" class ="ion-margin">
+            <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+            <ion-label>Info</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item lines="none" (click)="onLogout()" button class ="ion-margin">
+            <ion-icon name="exit-outline" slot="start"></ion-icon>
+            <ion-label>Logout</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>
