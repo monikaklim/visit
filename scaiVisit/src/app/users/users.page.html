@@ -16,16 +16,13 @@
 
   <ion-card-content>
     <ion-grid  size-sm>
-    <ion-row class="ion-table-header ion-margin-bottom">
-      <ion-col><b>Nome</b></ion-col>
-      <ion-col ><b>Cognome</b></ion-col>
-      <ion-col><b>Azienda</b></ion-col>
-      <ion-col><b>Azione</b></ion-col>
-    </ion-row>
-
-      <ion-row class="table-body-row"  *ngFor="
-      let user of users;
-      let i = index">
+      <ion-row class="ion-table-header ion-margin-bottom">
+        <ion-col><b>Nome</b></ion-col>
+        <ion-col ><b>Cognome</b></ion-col>
+        <ion-col><b>Azienda</b></ion-col>
+        <ion-col><b>Azione</b></ion-col>
+      </ion-row>
+      <ion-row class="table-body-row"  *ngFor="let user of users; let i = index">
         <ion-col>{{ user.firstname }}</ion-col>
         <ion-col>{{ user.lastname }}</ion-col>
         <ion-col>{{ user.company }}</ion-col>
@@ -36,10 +33,19 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-
   </ion-card-content>
-
 </ion-card>
-
-
 </ion-content>
+<ion-footer>
+  <ion-toolbar color="scaiblue" class ="ion-text-center">
+    <ion-row class="toolbar-row">
+      <ion-col >
+      
+        <p style="color:white">  <ion-icon name="person-add" color = "light"></ion-icon> Nuovo Visitatore</p>
+      </ion-col>
+      <ion-col>
+        <p style="color:white">  <ion-icon name="search" color = "light"></ion-icon>  Ricerca Filtrata</p>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
