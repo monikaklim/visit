@@ -16,15 +16,16 @@
 
   <ion-card-content>
     <ion-grid  size-sm>
-
+      
       <ion-row class="ion-table-header ion-margin-bottom">
         <ion-col><b>Nome</b></ion-col>
         <ion-col ><b>Cognome</b></ion-col>
         <ion-col><b>Azienda</b></ion-col>
       </ion-row>
-
+    <ion-list>
       <ion-item-sliding class ="ion-padding" *ngFor="let user of users; let i = index" (click) = "onSelectUser(user.userId)" #slidingItem>
-      <ion-row class="table-body-row"  >
+        <ion-grid>
+      <ion-row class="table-body-row">
         <ion-col >{{ user.firstname }}</ion-col>
         <ion-col >{{ user.lastname }}</ion-col>
         <ion-col >{{ user.company }}</ion-col>
@@ -35,8 +36,9 @@
         </ion-item-option>
         </ion-item-options>
       </ion-row>
+    </ion-grid>
       </ion-item-sliding>
-
+    </ion-list>
     </ion-grid>
   </ion-card-content>
 </ion-card>

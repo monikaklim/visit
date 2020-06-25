@@ -7,7 +7,16 @@ const routes: Routes = [
   {
     path: '',
     component: UsersPage
+  },
+  {
+    path: 'edit/:id',
+    loadChildren: () => import('./user-form/user-form.module').then( m => m.UserFormPageModule)
+  },
+  {
+    path: 'new',
+    loadChildren: () => import('./user-form/user-form.module').then( m => m.UserFormPageModule)
   }
+
 ];
 
 @NgModule({

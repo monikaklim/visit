@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UsersService } from './users.service';
 import { Subscription } from 'rxjs';
-import { LoadingController, ActionSheetController, IonItemSliding } from '@ionic/angular';
+import { LoadingController, ActionSheetController, IonItemSliding, NavController } from '@ionic/angular';
 import { User } from './user.model';
 
 @Component({
@@ -13,7 +13,7 @@ export class UsersPage implements OnInit, OnDestroy {
 users:User[] = [];
 
 private usersChangeSubcription: Subscription;
-constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController) { }
+constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public navController:NavController) { }
   
 
  ngOnInit() {
@@ -69,8 +69,8 @@ deleteUser(userId:string){
 this.usersService.deleteUser(userId);
 }
 
-editUser(){
-console.log("edit")
+editUser(userId:string){
+this.navController.navigateRoot['/edit'+userId]
 }
 
 showUserDetails(){
