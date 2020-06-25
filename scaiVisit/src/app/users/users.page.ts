@@ -15,22 +15,24 @@ private usersChangeSubcription: Subscription;
 constructor(public usersService:UsersService, public loadingController: LoadingController) { }
 
   ngOnInit() {
-    this.loadingController.create({
-      message: "Caricamento visitatori..."
-    }).then(loadingEl => {
-      loadingEl.present();
+   
+  this.usersService.fetchUsers();
+  this.users =  this.usersService.getUsers();
+   
+  this.loadingController.create({
+    message: "Caricamento visitatori..."
+  }).then(loadingEl => {
+    loadingEl.present();
 
-      this.usersService.fetchUsers();
-      this.users =  this.usersService.getUsers();
-  
-     loadingEl.dismiss();
-  });
-
-
-  this.usersChangeSubcription = this.usersService.usersChanged.subscribe(
+    this.usersChangeSubcription = this.usersService.usersChanged.subscribe(
     (users:[])  => {
-      this.users = users; });
+      this.users = users;
+      loadingEl.dismiss(); });
+    }
+  );
+
   }
+  
 
 ngOnDestroy(){
  this.usersChangeSubcription.unsubscribe();
