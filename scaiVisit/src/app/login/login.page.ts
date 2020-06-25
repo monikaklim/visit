@@ -42,6 +42,7 @@ export class LoginPage {
         if (res && res.status == 200){
               this.authService.setToken(res.body["token"]);
               localforage.setItem("token", res.body["token"]);
+             localStorage.setItem("token",res.body["token"]);
               this.sharedService.fetchSedi().subscribe( response => {
                 if(response.status == 200){
                   this.sharedService.setSedi(response.body["location"]);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-users',
@@ -15,9 +16,13 @@ users = [
 {firstname:"Monika", lastname:"Klim", company:"scai consulting"},
 {firstname:"Monika", lastname:"Klim", company:"scai consulting"}
 ];
-  constructor() { }
+  constructor(public usersService:UsersService) { }
 
   ngOnInit() {
+    this.usersService.fetchUsers();
+   this.users =  this.usersService.getUsers();
+   console.log(this.usersService.getUsers())
+  
   }
 
 }
