@@ -32,16 +32,26 @@ export class UserFormPage implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.has('userId')) {
         this.isEditMode = false;
-        this.form = this.formBuilder.group({
-	        firstname: [''],
-	        lastname: [''],
-          company: [''],
-          mobile:[''],
-          phone:[''],
-          address:[''],
-         occupation:[''],
-         email:['']
-	    });
+        this.formBuilder.group({
+          firstname: [
+            "",
+            Validators.compose([Validators.required, Validators.minLength(1)])
+          ],
+          lastname: [
+            "",
+            Validators.compose([Validators.required, Validators.minLength(1)])
+          ],
+          email: [""],
+          phone: [""],
+          mobile: [""],
+          company: [
+            "",
+            Validators.compose([Validators.required, Validators.minLength(1)])
+          ],
+          occupation: [""],
+          address: [""]
+       
+        });
         return;
       }
       else{
@@ -49,19 +59,29 @@ export class UserFormPage implements OnInit {
 
         this.userId = paramMap.get('userId');
         this.isLoading = true;
-       // this.user = this.usersService.getUser(paramMap.get('userId'));
+        this.user = this.usersService.getUser(paramMap.get('userId'));
         console.log(paramMap.get('userId'))
         console.log( this.usersService.getUser(paramMap.get('userId')))
         this.form = this.formBuilder.group({
-	        firstname: [''],
-	        lastname: [''],
-          company: [''],
-          mobile:[''],
-          phone:[''],
-          address:[''],
-         occupation:[''],
-         email:['']
-	    });
+          firstname: [
+            "",
+            Validators.compose([Validators.required, Validators.minLength(1)])
+          ],
+          lastname: [
+            "",
+            Validators.compose([Validators.required, Validators.minLength(1)])
+          ],
+          email: [""],
+          phone: [""],
+          mobile: [""],
+          company: [
+            "",
+            Validators.compose([Validators.required, Validators.minLength(1)])
+          ],
+          occupation: [""],
+          address: [""]
+        
+        });
   /*
        this.form = this.formBuilder.group({
                 firstname: new FormControl(this.user.firstname, {
@@ -101,8 +121,19 @@ export class UserFormPage implements OnInit {
    
 
 
-onSubmit(form:NgForm){
-
+onSubmit(){
+  let uId = "0";
+  if(this.isEditMode && this.userId){
+    uId = this.userId;
+  }
+  const user = {userId:uId,firstname:this.form.controls.firstname.value,lastname:this.form.controls.lastname.value, 
+  company:this.form.controls.company.value,address:this.form.controls.address.value,email:this.form.controls.email.value,
+  phone:this.form.controls.phone.value,mobile:this.form.controls.mobile.value,occupation:this.form.controls.occupation.value}
+  if(this.isEditMode)
+  this.usersService.updateUser(user);
+  else
+  this.usersService.newUser(user);
+  console.log("submit")
 }
 
 

@@ -9,7 +9,7 @@
 
 
 <ion-content class ="ion-margin">
-  <form [formGroup]="form"  (ngSubmit)="onSubmit(form)" #f >
+  <form [formGroup]="form"  (ngSubmit)="onSubmit(form)"  >
     <ion-row>
       <ion-col  class = "ion-margin">
           <ion-item >
@@ -74,7 +74,7 @@
  </ion-row>
     <ion-row>
       <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
-        <ion-button type = "submit" color="scaiblue" shape = "round"  expand="block" [disabled]="!f.valid" >Salva</ion-button>
+        <ion-button type = "submit" color="scaiblue" shape = "round"  expand="block" [disabled]="!form.valid" >Salva</ion-button>
       </ion-col>
     </ion-row>
   </form>

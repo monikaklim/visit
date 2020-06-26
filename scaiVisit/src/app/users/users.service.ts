@@ -21,9 +21,10 @@ getUsers(){
 }
 
 getUser(userId:string){
-const user = this.users.filter(user => user.userId === userId);
-console.log(user[0].userId)
-return user;
+const index = this.users.findIndex(user => user.userId === userId);
+console.log(index)
+console.log(this.users[index])
+return this.users[index];
 }
 
 setUsers(users){
@@ -44,17 +45,22 @@ const index = this.users.findIndex(u => u.userId === userId);
  this.users.splice(index,1);
  this.http.delete(this.apiUrl + "user/" + userId).subscribe(res => {console.log(res); loadingEl.dismiss()});
  this.usersChanged.next(this.users)
- console.log("delete service")
   });
 }
 
 
-updateUser(){
-console.log("edit service")
+updateUser(user:User){
+const index = this.users.findIndex(u => u.userId === user.userId);
+ this.users.splice(index,1);
+ this.users.push(user);
+ this.usersChanged.next(this.users)
+return this.http.put(this.apiUrl + "user/" + user.userId, user).subscribe(res => console.log(res));
 }
 
-newUser(){
-
+newUser(user:User){
+  this.users.push(user);
+  this.usersChanged.next(this.users)
+  return this.http.post(this.apiUrl + "user", user).subscribe(res => console.log(res))
 }
 
 
