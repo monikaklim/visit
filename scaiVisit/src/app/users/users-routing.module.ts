@@ -9,7 +9,7 @@ const routes: Routes = [
     component: UsersPage
   },
   {
-    path: 'edit/:id',
+    path: 'edit/:userId',
     loadChildren: () => import('./user-form/user-form.module').then( m => m.UserFormPageModule)
   },
   {

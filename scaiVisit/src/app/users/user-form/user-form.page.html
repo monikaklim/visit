@@ -9,19 +9,19 @@
 
 
 <ion-content class ="ion-margin">
-  <form #f="ngForm" (ngSubmit)="onSubmit(f)" >
+  <form [formGroup]="form"  (ngSubmit)="onSubmit(form)" #f >
     <ion-row>
       <ion-col  class = "ion-margin">
           <ion-item >
             <ion-label position="floating">Nome</ion-label>
-            <ion-input type="text"  name="firstname"  required ngModel  #firstnameCtrl="ngModel"></ion-input>
+            <ion-input type="text"  formControlName="firstname"  required ></ion-input>
           </ion-item>
       </ion-col>
 
       <ion-col class = "ion-margin">
           <ion-item>
             <ion-label position="floating">Cognome</ion-label>
-            <ion-input type="text"  name="lastname"  required ngModel #lastnameCtrl="ngModel"></ion-input>
+            <ion-input type="text"  formControlName="lastname"  required ></ion-input>
           </ion-item>
       </ion-col>
     </ion-row>
@@ -30,14 +30,14 @@
       <ion-col  class = "ion-margin">
         <ion-item>
           <ion-label position="floating">Azienda</ion-label>
-          <ion-input type="text"  name="company"  required ngModel #companyCtrl="ngModel"></ion-input>
+          <ion-input type="text"  formControlName="company"  required></ion-input>
         </ion-item>
     </ion-col>
 
     <ion-col  class = "ion-margin">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email"  name="lastname"   ngModel #emaileCtrl="ngModel"></ion-input>
+        <ion-input type="email"  formControlName="email"  ></ion-input>
       </ion-item>
   </ion-col>
 </ion-row>
@@ -45,14 +45,14 @@
   <ion-col  class = "ion-margin">
     <ion-item>
       <ion-label position="floating">Cellulare</ion-label>
-      <ion-input type="text"  name="mobile"   ngModel #mobileCtrl="ngModel"></ion-input>
+      <ion-input type="text"  formControlName="mobile" ></ion-input>
     </ion-item>
 </ion-col>
 
 <ion-col  class = "ion-margin">
   <ion-item>
     <ion-label position="floating">Telefono</ion-label>
-    <ion-input type="text"  name="phone"   ngModel #phoneCtrl="ngModel"></ion-input>
+    <ion-input type="text"  formControlName="phone" ></ion-input>
   </ion-item>
 </ion-col>
 </ion-row> 
@@ -61,14 +61,14 @@
   <ion-col  class = "ion-margin">
     <ion-item>
       <ion-label position="floating">Indirizzo</ion-label>
-      <ion-input type="text"  name="address"   ngModel #addresCtrl="ngModel"></ion-input>
+      <ion-input type="text"  formControlName="address"   ></ion-input>
     </ion-item>
   </ion-col>
 
 <ion-col class = "ion-margin">
   <ion-item>
     <ion-label position="floating">Professione</ion-label>
-    <ion-input type="text"  name="occupation"   ngModel #occupationCtrl="ngModel"></ion-input>
+    <ion-input type="text"  formControlName="occupation"  ></ion-input>
   </ion-item>
 </ion-col>
  </ion-row>

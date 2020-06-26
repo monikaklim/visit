@@ -19,6 +19,11 @@ getUsers(){
   return this.users;
 }
 
+getUser(userId:string){
+const user = this.users.filter(user => user.userId === userId);
+console.log(user[0].userId)
+return user;
+}
 
 setUsers(users){
   this.users = users;
@@ -30,11 +35,12 @@ return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUser
 }
 
 deleteUser(userId:string){
-  console.log("delete service")
+
   const index = this.users.findIndex(u => u.userId === userId);
   this.users.splice(index,1);
-  this.usersChanged.next(this.users)
-  return this.http.delete(this.apiUrl + "user/" + userId);
+ this.http.delete(this.apiUrl + "user/" + userId);
+ this.usersChanged.next(this.users)
+ console.log("delete service")
 }
 
 
