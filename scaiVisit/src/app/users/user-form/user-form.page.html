@@ -1,8 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title >{{isEditMode ? "Modifica visitatore" : "Nuovo visitatore"}}</ion-title>
+  <ion-toolbar color ="scaiblue">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="users" color ="light" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title color = "light">{{isEditMode ? "Modifica visitatore" : "Nuovo visitatore"}}</ion-title>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content>
   <form #f="ngForm" (ngSubmit)="onSubmit(f)" >
