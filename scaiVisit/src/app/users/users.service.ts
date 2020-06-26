@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 import { User } from './user.model';
 import { LoadingController } from '@ionic/angular';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -35,6 +34,12 @@ setUsers(users){
 fetchUsers(){
 return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUsers(res));
 }
+
+
+findUserFiltered(filtro) {
+  return this.http.post(this.apiUrl + "usersfiltered/", filtro);
+}
+
 
 deleteUser(userId:string){
   this.loadingController.create({
