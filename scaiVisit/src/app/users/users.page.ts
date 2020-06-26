@@ -83,7 +83,7 @@ console.log("details")
 }
 
 newUser(){
-
+  this.router.navigate(['users/new']);
 }
 
 checkIn(slidingItem: IonItemSliding){

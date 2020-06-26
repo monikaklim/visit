@@ -8,17 +8,17 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content class ="ion-margin">
   <form #f="ngForm" (ngSubmit)="onSubmit(f)" >
     <ion-row>
-      <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+      <ion-col  class = "ion-margin">
           <ion-item >
             <ion-label position="floating">Nome</ion-label>
             <ion-input type="text"  name="firstname"  required ngModel  #firstnameCtrl="ngModel"></ion-input>
           </ion-item>
       </ion-col>
 
-      <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+      <ion-col class = "ion-margin">
           <ion-item>
             <ion-label position="floating">Cognome</ion-label>
             <ion-input type="text"  name="lastname"  required ngModel #lastnameCtrl="ngModel"></ion-input>
@@ -27,14 +27,14 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+      <ion-col  class = "ion-margin">
         <ion-item>
           <ion-label position="floating">Azienda</ion-label>
           <ion-input type="text"  name="company"  required ngModel #companyCtrl="ngModel"></ion-input>
         </ion-item>
     </ion-col>
 
-    <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+    <ion-col  class = "ion-margin">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email"  name="lastname"   ngModel #emaileCtrl="ngModel"></ion-input>
@@ -42,27 +42,36 @@
   </ion-col>
 </ion-row>
 <ion-row>
-  <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+  <ion-col  class = "ion-margin">
     <ion-item>
       <ion-label position="floating">Cellulare</ion-label>
       <ion-input type="text"  name="mobile"   ngModel #mobileCtrl="ngModel"></ion-input>
     </ion-item>
 </ion-col>
 
-<ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+<ion-col  class = "ion-margin">
   <ion-item>
     <ion-label position="floating">Telefono</ion-label>
     <ion-input type="text"  name="phone"   ngModel #phoneCtrl="ngModel"></ion-input>
   </ion-item>
 </ion-col>
+</ion-row> 
 
-<ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+<ion-row>
+  <ion-col  class = "ion-margin">
+    <ion-item>
+      <ion-label position="floating">Indirizzo</ion-label>
+      <ion-input type="text"  name="address"   ngModel #addresCtrl="ngModel"></ion-input>
+    </ion-item>
+  </ion-col>
+
+<ion-col class = "ion-margin">
   <ion-item>
     <ion-label position="floating">Professione</ion-label>
     <ion-input type="text"  name="occupation"   ngModel #occupationCtrl="ngModel"></ion-input>
   </ion-item>
 </ion-col>
-</ion-row>  
+ </ion-row>
     <ion-row>
       <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
         <ion-button type = "submit" color="scaiblue" shape = "round"  expand="block" [disabled]="!f.valid" >Salva</ion-button>
