@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { Subscription } from 'rxjs';
 import { LoadingController, ActionSheetController, IonItemSliding, NavController } from '@ionic/angular';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -10,14 +11,18 @@ import { User } from './user.model';
   styleUrls: ['./users.page.scss'],
 })
 export class UsersPage implements OnInit, OnDestroy {
-users:User[] = [];
+users:User[] = [{userId:"1",firstname:"test", lastname:"test",company:"test"},
+{userId:"2",firstname:"test2", lastname:"test",company:"test"},
+{userId:"3",firstname:"test3", lastname:"test",company:"test"},
+{userId:"4",firstname:"test4", lastname:"test",company:"test"}
+];
 
 private usersChangeSubcription: Subscription;
-constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public navController:NavController) { }
+constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public router: Router) { }
   
 
  ngOnInit() {
-    this.usersService.fetchUsers();
+   this.usersService.fetchUsers();
     this.users =  this.usersService.getUsers();
      
     this.loadingController.create({
@@ -30,7 +35,7 @@ constructor(public usersService:UsersService, public loadingController: LoadingC
         this.users = users;
         loadingEl.dismiss(); });
       }
-    );
+    );  
   }
 
 
@@ -41,7 +46,7 @@ onSelectUser(user){
           {
             text: 'Modifica',
             handler: () => {
-              this.editUser();
+              this.editUser(user.userId);
             }
           },
           {
@@ -52,7 +57,6 @@ onSelectUser(user){
           },
           {
             text: 'Elimina',
-            role: 'destructive',
             handler: () => {
               this.deleteUser(user.userId);
             }
@@ -70,7 +74,8 @@ this.usersService.deleteUser(userId);
 }
 
 editUser(userId:string){
-this.navController.navigateRoot['/edit'+userId]
+this.router.navigate(['users/edit', userId]);
+console.log("edit")
 }
 
 showUserDetails(){
@@ -82,6 +87,7 @@ newUser(){
 }
 
 checkIn(slidingItem: IonItemSliding){
+  console.log("checkin")
   slidingItem.close();
 }
 

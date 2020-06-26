@@ -9,11 +9,11 @@ import { NgForm } from '@angular/forms';
 export class UserFormPage implements OnInit {
 
   constructor() { }
-
+isEditMode:boolean = false;
   ngOnInit() {
   }
 
-  
+
 onSubmit(form:NgForm){
 
 }

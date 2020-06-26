@@ -9,7 +9,8 @@
 
 <ion-content class = "ion-padding">
 <ion-searchbar animated placeholder = "Cerca visitatore..." ></ion-searchbar>
-<ion-card  >
+
+<ion-card>
   <ion-card-header class = "ion-text-center">
     <ion-card-title>Elenco Visitatori  </ion-card-title> 
   </ion-card-header>
@@ -23,21 +24,25 @@
         <ion-col><b>Azienda</b></ion-col>
       </ion-row>
     <ion-list>
-      <ion-item-sliding class ="ion-padding" *ngFor="let user of users; let i = index" (click) = "onSelectUser(user.userId)" #slidingItem>
+     
         <ion-grid>
-      <ion-row class="table-body-row">
+      <ion-row class="table-body-row ion-padding"  *ngFor="let user of users; let i = index" >
+        <ion-item-sliding  #slidingItem>
+          <ion-item (click) = "onSelectUser(user)">
         <ion-col >{{ user.firstname }}</ion-col>
         <ion-col >{{ user.lastname }}</ion-col>
         <ion-col >{{ user.company }}</ion-col>
+      </ion-item>
         <ion-item-options side="end">
           <ion-item-option  color = "scaiblue" (click) = "checkIn(slidingItem)">
-            <ion-icon name="enter-sharp">
+            <ion-icon color ="light" name="enter-sharp">
           </ion-icon>
         </ion-item-option>
         </ion-item-options>
+      </ion-item-sliding>
       </ion-row>
     </ion-grid>
-      </ion-item-sliding>
+   
     </ion-list>
     </ion-grid>
   </ion-card-content>

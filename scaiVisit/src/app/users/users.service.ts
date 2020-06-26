@@ -30,6 +30,7 @@ return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUser
 }
 
 deleteUser(userId:string){
+  console.log("delete service")
   const index = this.users.findIndex(u => u.userId === userId);
   this.users.splice(index,1);
   this.usersChanged.next(this.users)
@@ -38,7 +39,7 @@ deleteUser(userId:string){
 
 
 updateUser(){
-
+console.log("edit service")
 }
 
 newUser(){
