@@ -18,7 +18,7 @@ constructor(public usersService:UsersService, public loadingController: LoadingC
   
 
  ngOnInit() {
-   //if(this.usersService.getUsers().length === 0)
+   if(this.usersService.getUsers().length === 0)
    this.usersService.fetchUsers();
 
    
@@ -97,9 +97,7 @@ showUserDetails(){
 console.log("details")
 }
 
-newUser(){
-  this.router.navigate(['users/new']);
-}
+
 
 checkIn(slidingItem: IonItemSliding){
   console.log("checkin")

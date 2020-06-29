@@ -55,10 +55,12 @@ deleteUser(userId:string){
 
 
 updateUser(user:User){
-  const index = this.users.findIndex(u => u.userId === user.userId);
-  this.users.splice(index,1);
-  this.users.push(user);
-  this.usersChanged.next(this.users)
+  const users = this.users.slice();
+  const index = users.findIndex(u => u.userId == user.userId);
+  users.splice(index,1);
+  users.push(user);
+  this.setUsers(users);
+
   this.http.put(this.apiUrl + "user/" + user.userId, user).subscribe(res => console.log(res) );
 
 }
