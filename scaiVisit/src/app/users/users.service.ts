@@ -47,7 +47,7 @@ deleteUser(userId:string){
   const index = this.users.findIndex(u => u.userId === userId);
   this.users.splice(index,1);
   this.http.delete(this.apiUrl + "user/" + userId).subscribe(res => { loadingEl.dismiss()});
-  this.usersChanged.next(this.users)
+  this.usersChanged.next(this.users);
   });
 }
 
@@ -62,8 +62,8 @@ updateUser(user:User){
 
 newUser(user:User){
   this.users.push(user);
-  this.usersChanged.next(this.users)
-  return this.http.post(this.apiUrl + "user", user).subscribe(res => console.log(res))
+  this.usersChanged.next(this.users);
+  return this.http.post(this.apiUrl + "user", user).subscribe(res => console.log(res));
 }
 
 

@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { UsersService } from './users.service';
 import { Subscription } from 'rxjs';
-import { LoadingController, ActionSheetController, IonItemSliding, NavController, AlertController } from '@ionic/angular';
+import { LoadingController, ActionSheetController, IonItemSliding, NavController, AlertController, IonContent } from '@ionic/angular';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 
@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./users.page.scss'],
 })
 export class UsersPage implements OnInit, OnDestroy {
+@ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
 users:User[] = [];
-
 private usersChangeSubscription: Subscription;
 constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public router: Router, public alertController:AlertController) { }
   
@@ -110,6 +110,14 @@ checkIn(slidingItem: IonItemSliding){
 
 ngOnDestroy(){
 
+}
+
+scrollToBottom() {
+  this.content.scrollToBottom(500);
+}
+
+scrollToTop() {
+  this.content.scrollToTop(500);
 }
 
 }

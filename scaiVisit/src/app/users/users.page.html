@@ -4,15 +4,19 @@
       <ion-menu-button  color = "light"></ion-menu-button>
     </ion-buttons>
     <ion-title color = "light">Visitatori</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click) = "scrollToBottom()" fill="clear"> <ion-icon name="arrow-down-circle-outline" color = "light" slot="icon-only" size="large"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class = "ion-padding">
+<ion-content class = "ion-padding"   [scrollEvents]="true">
 <ion-searchbar animated placeholder = "Cerca visitatore..." ></ion-searchbar>
 
 <ion-card>
   <ion-card-header class = "ion-text-center">
     <ion-card-subtitle>Elenco Visitatori  </ion-card-subtitle> 
+    
   </ion-card-header>
 
   <ion-card-content>
@@ -53,10 +57,13 @@
     <ion-row class="toolbar-row">
       <ion-col (click) ="newUser()" >
       
-        <p style="color:white">  <ion-icon name="person-add" color = "light" ></ion-icon> Nuovo Visitatore</p>
+        <p style="color:white">  <ion-icon name="person-add" color = "light" ></ion-icon> Aggiungi</p>
       </ion-col>
       <ion-col>
-        <p style="color:white">  <ion-icon name="search" color = "light"></ion-icon>  Ricerca Filtrata</p>
+        <p style="color:white">  <ion-icon name="search" color = "light"></ion-icon> Cerca</p>
+      </ion-col>
+      <ion-col size="2"> 
+        <ion-button (click) = "scrollToTop()" fill="clear"> <ion-icon name="arrow-up-circle-outline" color = "light" slot="icon-only"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-toolbar>
