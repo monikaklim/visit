@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from './../../environments/environment';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 import { LoadingController } from '@ionic/angular';
 
@@ -15,6 +15,8 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 
 private users:User[] = [];
 usersChanged = new Subject<User[]>();
+
+
 getUsers(){
   return this.users;
 }
@@ -55,9 +57,10 @@ deleteUser(userId:string){
 updateUser(user:User){
   const index = this.users.findIndex(u => u.userId === user.userId);
   this.users.splice(index,1);
-  this.http.put(this.apiUrl + "user/" + user.userId, user).subscribe(res => console.log(res));
   this.users.push(user);
-  this.usersChanged.next(this.users);
+  this.usersChanged.next(this.users)
+  this.http.put(this.apiUrl + "user/" + user.userId, user).subscribe(res => console.log(res) );
+
 }
 
 newUser(user:User){

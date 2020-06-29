@@ -15,7 +15,12 @@ const routes: Routes = [
   {
     path: 'new',
     loadChildren: () => import('./user-form/user-form.module').then( m => m.UserFormPageModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./user-search/user-search.module').then( m => m.UserSearchPageModule)
   }
+
 
 ];
 

@@ -18,7 +18,7 @@ constructor(public usersService:UsersService, public loadingController: LoadingC
   
 
  ngOnInit() {
-   if(this.usersService.getUsers().length === 0)
+   //if(this.usersService.getUsers().length === 0)
    this.usersService.fetchUsers();
 
    
@@ -28,8 +28,7 @@ constructor(public usersService:UsersService, public loadingController: LoadingC
     }).then(loadingEl => {
       loadingEl.present();
       this.users =  this.usersService.getUsers();
-      this.usersChangeSubscription = this.usersService.usersChanged.subscribe(
-      (users:[])  => {
+      this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
         this.users = users;
         loadingEl.dismiss(); });
       }
@@ -109,7 +108,7 @@ checkIn(slidingItem: IonItemSliding){
 
 
 ngOnDestroy(){
-
+this.usersChangeSubscription.unsubscribe();
 }
 
 scrollToBottom() {

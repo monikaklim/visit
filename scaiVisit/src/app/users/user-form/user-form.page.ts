@@ -117,7 +117,7 @@ onSubmit(){
       this.usersService.updateUser(user);
     else
       this.usersService.newUser(user);
-
+      this.usersService.fetchUsers();
       setTimeout(()  => {loadingEl.dismiss(); this.navController.navigateBack('users'); }, 2500)
     }
   );
