@@ -20,10 +20,8 @@ getUsers(){
 }
 
 getUser(userId:string){
-const index = this.users.findIndex(user => user.userId === userId);
-console.log(index)
-console.log(this.users[index])
-return this.users[index];
+  const users = this.users.slice();
+  return users.find(user => user.userId == userId);
 }
 
 setUsers(users){
@@ -46,20 +44,20 @@ deleteUser(userId:string){
     message: "Eliminazione in corso..."
   }).then(loadingEl => {
     loadingEl.present();
-const index = this.users.findIndex(u => u.userId === userId);
- this.users.splice(index,1);
- this.http.delete(this.apiUrl + "user/" + userId).subscribe(res => {console.log(res); loadingEl.dismiss()});
- this.usersChanged.next(this.users)
+  const index = this.users.findIndex(u => u.userId === userId);
+  this.users.splice(index,1);
+  this.http.delete(this.apiUrl + "user/" + userId).subscribe(res => { loadingEl.dismiss()});
+  this.usersChanged.next(this.users)
   });
 }
 
 
 updateUser(user:User){
-const index = this.users.findIndex(u => u.userId === user.userId);
- this.users.splice(index,1);
- this.users.push(user);
- this.usersChanged.next(this.users)
-return this.http.put(this.apiUrl + "user/" + user.userId, user).subscribe(res => console.log(res));
+  const index = this.users.findIndex(u => u.userId === user.userId);
+  this.users.splice(index,1);
+  this.http.put(this.apiUrl + "user/" + user.userId, user).subscribe(res => console.log(res));
+  this.users.push(user);
+  this.usersChanged.next(this.users);
 }
 
 newUser(user:User){

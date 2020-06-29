@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class UsersPage implements OnInit, OnDestroy {
 users:User[] = [];
 
-private usersChangeSubcription: Subscription;
+private usersChangeSubscription: Subscription;
 constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public router: Router, public alertController:AlertController) { }
   
 
@@ -28,7 +28,7 @@ constructor(public usersService:UsersService, public loadingController: LoadingC
     }).then(loadingEl => {
       loadingEl.present();
       this.users =  this.usersService.getUsers();
-      this.usersChangeSubcription = this.usersService.usersChanged.subscribe(
+      this.usersChangeSubscription = this.usersService.usersChanged.subscribe(
       (users:[])  => {
         this.users = users;
         loadingEl.dismiss(); });
@@ -109,7 +109,7 @@ checkIn(slidingItem: IonItemSliding){
 
 
 ngOnDestroy(){
- this.usersChangeSubcription.unsubscribe();
+
 }
 
 }

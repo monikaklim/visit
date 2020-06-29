@@ -22,7 +22,7 @@ export class UserFormPage implements OnInit {
   user:User;
   isLoading:boolean = false;
 
-  ngOnInit() {
+    ngOnInit() {
 
 
     if(this.usersService.getUsers().length === 0){
@@ -61,7 +61,7 @@ export class UserFormPage implements OnInit {
         this.userId = paramMap.get('userId');
         this.isLoading = true;
         this.user = this.usersService.getUser(paramMap.get('userId'));
-        console.log(paramMap.get('userId'))
+       
         console.log( this.usersService.getUser(paramMap.get('userId')))
        
        this.form = this.formBuilder.group({
@@ -80,11 +80,13 @@ export class UserFormPage implements OnInit {
                email: new FormControl(this.user.email, {
                   updateOn: 'blur'
                 }),
-
                 mobile: new FormControl(this.user.mobile, {
                   updateOn: 'blur',
                 }),
-              phone: new FormControl(this.user.phone, {
+               address: new FormControl(this.user.address, {
+                  updateOn: 'blur',
+                }),
+               phone: new FormControl(this.user.phone, {
                   updateOn: 'blur'
                 }),
                occupation: new FormControl(this.user.occupation, {
@@ -96,7 +98,6 @@ export class UserFormPage implements OnInit {
             }
            
       });
-
 
       }
    
@@ -116,6 +117,7 @@ onSubmit(){
       this.usersService.updateUser(user);
     else
       this.usersService.newUser(user);
+
       setTimeout(()  => {loadingEl.dismiss(); this.navController.navigateBack('users'); }, 2500)
     }
   );
