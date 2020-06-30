@@ -14,6 +14,7 @@ private apiUrl:string = environment.apiUrl;
 constructor(public http: HttpClient, public loadingController:LoadingController) { }
 
 private users:User[] = [];
+private filteredUsers:User[] = [];
 usersChanged = new Subject<User[]>();
 
 
@@ -31,14 +32,19 @@ setUsers(users){
   this.usersChanged.next(this.users)
 }
 
+
+
 fetchUsers(){
 return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUsers(res));
 }
 
 
 findUserFiltered(filtro) {
-  return this.http.post(this.apiUrl + "usersfiltered/", filtro).subscribe(res=> console.log(res));
+  return this.http.post<User[]>(this.apiUrl + "usersfiltered/", filtro).subscribe(res=> 
+    this.setUsers(res) );
 }
+
+
 
 
 deleteUser(userId:string){

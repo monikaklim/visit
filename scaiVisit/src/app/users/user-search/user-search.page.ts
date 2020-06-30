@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { LoadingController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-search',
@@ -11,19 +12,13 @@ import { LoadingController } from '@ionic/angular';
 export class UserSearchPage implements OnInit {
   form: FormGroup;
   
-  constructor( public usersService:UsersService, public formBuilder:FormBuilder, public loadingController:LoadingController) { }
+  constructor( public usersService:UsersService, public formBuilder:FormBuilder, public loadingController:LoadingController, public navController:NavController) { }
 
   ngOnInit() {
     this.form =  this.formBuilder.group({
-      firstname: [
-        ""
-      ],
-      lastname: [
-        ""
-      ],
-    company: [
-        ""
-      ]
+      firstname: [ "" ],
+      lastname: [ "" ],
+    company: [ "" ]
     });
   }
 
@@ -35,7 +30,16 @@ onSubmit(){
          lastname: this.form.controls.lastname.value.length > 0 ? this.form.controls.lastname.value : null, 
          company: this.form.controls.company.value.length > 0 ? this.form.controls.company.value : null}
       console.log(filter)
-      this.usersService.findUserFiltered(filter)
+    
+      this.loadingController.create({spinner:"bubbles"}).then(loadingEl=>{
+        loadingEl.present();
+        this.usersService.findUserFiltered(filter);
+      
+        loadingEl.dismiss();
+        this.navController.navigateBack('users'); 
+  
+      })
+      
     }
   
 }
