@@ -15,24 +15,26 @@ export class UsersPage implements OnInit, OnDestroy {
 users:User[] = [];
 private usersChangeSubscription: Subscription;
 constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public router: Router, public alertController:AlertController) { }
-  
+
+async loadUsers(){
+  if(this.usersService.getUsers().length === 0)
+    this.usersService.fetchUsers();
+  await this.loadingController.create({
+    message: "Caricamento visitatori...", spinner:"bubbles", backdropDismiss:true
+  }).then(loadingEl => {this.users =  this.usersService.getUsers();
+  loadingEl.present(); 
+   this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
+     this.users = users;
+     loadingEl.dismiss();
+      });
+
+    })
+    }
+
 
  ngOnInit() {
-   if(this.usersService.getUsers().length === 0)
-   this.usersService.fetchUsers();
+ this.loadUsers();
 
-   
-     
-    this.loadingController.create({
-      message: "Caricamento visitatori..."
-    }).then(loadingEl => {
-      loadingEl.present();
-      this.users =  this.usersService.getUsers();
-      this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
-        this.users = users;
-        loadingEl.dismiss(); });
-      }
-    );  
   }
 
 

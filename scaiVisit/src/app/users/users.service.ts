@@ -37,7 +37,7 @@ return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUser
 
 
 findUserFiltered(filtro) {
-  return this.http.post(this.apiUrl + "usersfiltered/", filtro);
+  return this.http.post(this.apiUrl + "usersfiltered/", filtro).subscribe(res=> console.log(res));
 }
 
 
