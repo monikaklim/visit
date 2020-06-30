@@ -31,7 +31,9 @@ onSubmit(){
 
     if(this.form.controls.firstname.value || this.form.controls.lastname.value || this.form.controls.company.value){
       
-      const filter = {firstname: this.form.controls.firstname.value, lastname: this.form.controls.lastname.value, company: this.form.controls.company.value}
+      const filter = {firstname: this.form.controls.firstname.value.length > 0 ? this.form.controls.firstname.value : null ,
+         lastname: this.form.controls.lastname.value.length > 0 ? this.form.controls.lastname.value : null, 
+         company: this.form.controls.company.value.length > 0 ? this.form.controls.company.value : null}
       console.log(filter)
       this.usersService.findUserFiltered(filter)
     }
