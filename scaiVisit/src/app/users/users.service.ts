@@ -11,16 +11,27 @@ import { LoadingController } from '@ionic/angular';
 export class UsersService {
 private apiUrl:string = environment.apiUrl;
 
-constructor(public http: HttpClient, public loadingController:LoadingController) { }
+constructor(public http: HttpClient, public loadingController:LoadingController) { 
+
+}
 
 private users:User[] = [];
-private filteredUsers:User[] = [];
+private _isFilteredSearch = new BehaviorSubject(false);
 usersChanged = new Subject<User[]>();
 
 
 getUsers(){
   return this.users;
 }
+
+getIsFilteredSearch(){
+  return this._isFilteredSearch.asObservable();
+}
+
+setIsFilteredSearch(bool:boolean){
+  this._isFilteredSearch.next(bool);
+}
+
 
 getUser(userId:string){
   const users = this.users.slice();
@@ -40,6 +51,7 @@ return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUser
 
 
 findUserFiltered(filtro) {
+  this.isFilteredSearch = true;
   return this.http.post<User[]>(this.apiUrl + "usersfiltered/", filtro).subscribe(res=> 
     this.setUsers(res) );
 }

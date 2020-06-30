@@ -34,10 +34,10 @@ onSubmit(){
       this.loadingController.create({spinner:"bubbles"}).then(loadingEl=>{
         loadingEl.present();
         this.usersService.findUserFiltered(filter);
-      
+        this.usersService.setIsFilteredSearch(true);
         loadingEl.dismiss();
-        this.navController.navigateBack('users'); 
   
+        this.navController.navigateBack('users'); 
       })
       
     }

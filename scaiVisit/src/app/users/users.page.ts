@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { Subscription } from 'rxjs';
 import { LoadingController, ActionSheetController, IonItemSliding, NavController, AlertController, IonContent } from '@ionic/angular';
 import { User } from './user.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -14,7 +14,11 @@ export class UsersPage implements OnInit, OnDestroy {
 @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
 users:User[] = [];
 private usersChangeSubscription: Subscription;
-constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public router: Router, public alertController:AlertController) { }
+isFiltered = false;
+
+
+constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,
+  public router: Router, public alertController:AlertController, public route:ActivatedRoute) { }
 
 async loadUsers(){
   if(this.usersService.getUsers().length === 0)
@@ -32,7 +36,10 @@ async loadUsers(){
     }
 
 
+
+
  ngOnInit() {
+ this.usersService.getIsFilteredSearch().subscribe(bool => this.isFiltered = bool)
  this.loadUsers();
 
   }
@@ -99,8 +106,10 @@ showUserDetails(){
 console.log("details")
 }
 
-
-
+cancelFilter(){
+this.isFiltered = false;
+this.loadUsers();
+}
 checkIn(slidingItem: IonItemSliding){
   console.log("checkin")
   slidingItem.close();
