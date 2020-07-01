@@ -3,6 +3,7 @@ import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './login/auth.service';
+import { UsersService } from './users/users.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public authService:AuthService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public usersService:UsersService
   ) {
     this.initializeApp();
   }
@@ -24,6 +26,8 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      if(localStorage.getItem("token"))
+        this.usersService.fetchUsers();
     });
   }
 

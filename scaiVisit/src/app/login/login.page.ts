@@ -6,6 +6,7 @@ import { SharedService } from './../shared/shared.service';
 import constants from "../../config/constants";
 import { HomePage } from '../home/home.page';
 import { NgForm } from '@angular/forms';
+import { UsersService } from './../users/users.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ import { NgForm } from '@angular/forms';
 export class LoginPage {
 
   constructor(public navCtrl: NavController, public authService:AuthService, public sharedService:SharedService,
-    public loadingController : LoadingController, public alertController : AlertController) {
+    public loadingController : LoadingController, public alertController : AlertController, public usersService:UsersService) {
   }
 
   onLogin(form:NgForm){
@@ -42,6 +43,7 @@ export class LoginPage {
         if (res && res.status == 200){
               this.authService.setToken(res.body["token"]);
               localforage.setItem("token", res.body["token"]);
+             localStorage.setItem("token",res.body["token"]);
               this.sharedService.fetchSedi().subscribe( response => {
                 if(response.status == 200){
                   this.sharedService.setSedi(response.body["location"]);
@@ -111,12 +113,13 @@ export class LoginPage {
           return;
         }
       },
-      () => console.log('Login successful')
-    
+      () => {
+        console.log('Login successful');}
     );
    
   });
     form.reset(); 
+   
   }
   
 

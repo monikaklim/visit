@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color ="scaiblue">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="users" color ="light" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title color = "light">{{isEditMode ? "Modifica visitatore" : "Nuovo visitatore"}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class ="ion-margin">
+  <form [formGroup]="form"  (ngSubmit)="onSubmit()"  >
+    <ion-row>
+      <ion-col  class = "ion-margin">
+          <ion-item >
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input type="text"  formControlName="firstname"  required ></ion-input>
+          </ion-item>
+      </ion-col>
+
+      <ion-col class = "ion-margin">
+          <ion-item>
+            <ion-label position="floating">Cognome</ion-label>
+            <ion-input type="text"  formControlName="lastname"  required ></ion-input>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col  class = "ion-margin">
+        <ion-item>
+          <ion-label position="floating">Azienda</ion-label>
+          <ion-input type="text"  formControlName="company"  required></ion-input>
+        </ion-item>
+    </ion-col>
+
+    <ion-col  class = "ion-margin">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email"  formControlName="email"  ></ion-input>
+      </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col  class = "ion-margin">
+    <ion-item>
+      <ion-label position="floating">Cellulare</ion-label>
+      <ion-input type="text"  formControlName="mobile" ></ion-input>
+    </ion-item>
+</ion-col>
+
+<ion-col  class = "ion-margin">
+  <ion-item>
+    <ion-label position="floating">Telefono</ion-label>
+    <ion-input type="text"  formControlName="phone" ></ion-input>
+  </ion-item>
+</ion-col>
+</ion-row> 
+
+<ion-row>
+  <ion-col  class = "ion-margin">
+    <ion-item>
+      <ion-label position="floating">Indirizzo</ion-label>
+      <ion-input type="text"  formControlName="address" ></ion-input>
+    </ion-item>
+  </ion-col>
+
+<ion-col class = "ion-margin">
+  <ion-item>
+    <ion-label position="floating">Professione</ion-label>
+    <ion-input type="text"  formControlName="occupation"  ></ion-input>
+  </ion-item>
+</ion-col>
+ </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+        <ion-button type = "submit" color="scaiblue" shape = "round"  expand="block" [disabled]="!form.valid" >Salva</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+ 
+</ion-content>

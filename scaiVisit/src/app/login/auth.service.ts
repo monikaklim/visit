@@ -31,6 +31,7 @@ return this.token;
 }
 
 logout() {
+  localStorage.removeItem("token");
   localforage.removeItem("token");
   this.setToken("");
 }
