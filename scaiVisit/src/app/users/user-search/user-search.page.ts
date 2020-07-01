@@ -29,15 +29,13 @@ onSubmit(){
       const filter = {firstname: this.form.controls.firstname.value.length > 0 ? this.form.controls.firstname.value : null ,
          lastname: this.form.controls.lastname.value.length > 0 ? this.form.controls.lastname.value : null, 
          company: this.form.controls.company.value.length > 0 ? this.form.controls.company.value : null}
-      console.log(filter)
-    
       this.loadingController.create({spinner:"bubbles"}).then(loadingEl=>{
         loadingEl.present();
         this.usersService.findUserFiltered(filter);
-        this.usersService.setIsFilteredSearch(true);
         loadingEl.dismiss();
-  
-        this.navController.navigateBack('users'); 
+      
+
+        this.navController.navigateRoot('users'); 
       })
       
     }

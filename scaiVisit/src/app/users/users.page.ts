@@ -14,6 +14,7 @@ export class UsersPage implements OnInit, OnDestroy {
 @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
 users:User[] = [];
 private usersChangeSubscription: Subscription;
+private filteredUsersChangeSubscription: Subscription;
 isFiltered = false;
 
 
@@ -21,26 +22,40 @@ constructor(public usersService:UsersService, public loadingController: LoadingC
   public router: Router, public alertController:AlertController, public route:ActivatedRoute) { }
 
 async loadUsers(){
-  if(this.usersService.getUsers().length === 0)
-    this.usersService.fetchUsers();
-  await this.loadingController.create({
-    message: "Caricamento visitatori...", spinner:"bubbles", backdropDismiss:true
-  }).then(loadingEl => {this.users =  this.usersService.getUsers();
-  loadingEl.present(); 
-   this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
-     this.users = users;
-     loadingEl.dismiss();
-      });
+let filteredUsers = this.usersService.getFilteredUsers();
+  if(filteredUsers.length === 0 ){
 
-    })
-    }
+    if(this.usersService.getUsers().length === 0)
+      this.usersService.fetchUsers();
+     await this.loadingController.create({
+      message: "Caricamento visitatori...", spinner:"bubbles", backdropDismiss:true
+     }).then(loadingEl => {this.users =  this.usersService.getUsers();
+        loadingEl.present(); 
+        this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
+        this.users = users;
+            });
+            if(this.users.length>0)
+            loadingEl.dismiss()
+      });
+  
+  }
+
+
+}
 
 
 
 
  ngOnInit() {
- this.usersService.getIsFilteredSearch().subscribe(bool => this.isFiltered = bool)
+
  this.loadUsers();
+
+ this.filteredUsersChangeSubscription = this.usersService.filteredUsersChanged.subscribe(users  => {
+  this.users = users;
+  if(users.length > 0 && users)
+  this.isFiltered = true;
+     
+    });
 
   }
 
@@ -108,6 +123,7 @@ console.log("details")
 
 cancelFilter(){
 this.isFiltered = false;
+this.usersService.setFilteredUsers([]);
 this.loadUsers();
 }
 checkIn(slidingItem: IonItemSliding){

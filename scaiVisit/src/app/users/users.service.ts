@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from './../../environments/environment';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { User } from './user.model';
 import { LoadingController } from '@ionic/angular';
 
@@ -16,20 +16,13 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 }
 
 private users:User[] = [];
-private _isFilteredSearch = new BehaviorSubject(false);
 usersChanged = new Subject<User[]>();
+private filteredUsers:User[] = [];
+filteredUsersChanged = new Subject<User[]>();
 
 
 getUsers(){
   return this.users;
-}
-
-getIsFilteredSearch(){
-  return this._isFilteredSearch.asObservable();
-}
-
-setIsFilteredSearch(bool:boolean){
-  this._isFilteredSearch.next(bool);
 }
 
 
@@ -43,7 +36,15 @@ setUsers(users){
   this.usersChanged.next(this.users)
 }
 
+getFilteredUsers(){
+  return this.filteredUsers;
+}
 
+
+setFilteredUsers(users){
+  this.filteredUsers = users;
+  this.filteredUsersChanged.next(this.filteredUsers);
+}
 
 fetchUsers(){
 return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUsers(res));
@@ -51,9 +52,9 @@ return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUser
 
 
 findUserFiltered(filtro) {
-  this.isFilteredSearch = true;
+ 
   return this.http.post<User[]>(this.apiUrl + "usersfiltered/", filtro).subscribe(res=> 
-    this.setUsers(res) );
+    this.setFilteredUsers(res) );
 }
 
 
