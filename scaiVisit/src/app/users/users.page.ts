@@ -73,7 +73,7 @@ onSelectUser(user){
           {
             text: 'Dettagli',
             handler: () => {
-              this.showUserDetails();
+              this.showUserDetails(user.userId);
             }
           },
           {
@@ -117,8 +117,8 @@ this.router.navigate(['users/edit', userId]);
 console.log("edit")
 }
 
-showUserDetails(){
-console.log("details")
+showUserDetails(userId:string){
+  this.router.navigate(['users/details/',userId]);
 }
 
 cancelFilter(){

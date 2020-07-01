@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController } from '@ionic/angular';
 import { UsersService } from '../users.service';
-import { FormBuilder } from '@angular/forms';
 import { User } from '../user.model';
 
 @Component({
@@ -12,7 +11,7 @@ import { User } from '../user.model';
 })
 export class UserDetailsPage implements OnInit {
 
-  constructor(public route:ActivatedRoute, public navController:NavController, public usersService:UsersService, public formBuilder:FormBuilder, public loadingController:LoadingController) { }
+  constructor(public route:ActivatedRoute, public navController:NavController, public usersService:UsersService,  public loadingController:LoadingController) { }
 
   userId:string;
   user:User;

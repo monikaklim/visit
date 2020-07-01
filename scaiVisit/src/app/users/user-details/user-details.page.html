@@ -9,12 +9,77 @@
 
 <ion-content>
 
-  <ion-grid>
+  <ion-grid class ="ion-padding ion-margin">
     <ion-row>
-      <ion-col>
-        Nome : {{user.name}}
+      <ion-col size="8" offset="2">
+
+        <ion-list>
+          <ion-item>
+            <ion-label>
+                Nome 
+            </ion-label>
+          {{user.firstname}}
+          </ion-item>
+          
+          <ion-item>
+           <ion-label> Cognome:</ion-label>  
+           {{user.lastname}}
+          </ion-item>
+
+          <ion-item>
+          <ion-label>
+              Azienda:
+          </ion-label>  
+          {{user.company}}
+          </ion-item>
+
+         <ion-item>
+          <ion-label>
+            Professione:
+          </ion-label>
+          {{user.occupation ? 
+             user.occupation 
+            : null}}
+           </ion-item>
+
+           <ion-item>
+            <ion-label>
+              Cellulare:
+            </ion-label>
+            {{user.mobile? user.mobile : null }}
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              Telefono:
+            </ion-label>
+          {{user.phone? user.phone : null}}         
+         </ion-item>
+
+          <ion-item>
+            <ion-label>
+              Indirizzo
+            </ion-label>
+            {{user.address ? user.address   : null}}
+             </ion-item>
+
+           <ion-item> 
+             <ion-label>Email:</ion-label> 
+          {{user.email ? user.email    : null}}
+         </ion-item>
+
+        </ion-list>
+
       </ion-col>
     </ion-row>
+
+    <ion-row>
+      <ion-col size ="10" offset="1">
+        <ion-button color ="scaiblue" type ="button"  shape = "round"  expand="block">Visualizza ingressi</ion-button>
+      </ion-col>
+    </ion-row>
+
+
   </ion-grid>
 
 </ion-content>
