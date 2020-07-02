@@ -51,9 +51,9 @@ return this.http.get(this.apiUrl + "usersenabled").subscribe(res => this.setUser
 }
 
 
-findUserFiltered(filtro) {
+findUserFiltered(filter) {
  
-  return this.http.post<User[]>(this.apiUrl + "usersfiltered/", filtro).subscribe(res=> 
+  return this.http.post<User[]>(this.apiUrl + "usersfiltered/", filter).subscribe(res=> 
     this.setFilteredUsers(res) );
 }
 

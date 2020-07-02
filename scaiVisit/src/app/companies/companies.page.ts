@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { LoadingController, ActionSheetController, AlertController } from '@ionic/angular';
+import { Company } from './company.model';
+import { Subscription } from 'rxjs';
+import { CompaniesService } from './companies.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-companies',
@@ -7,10 +12,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompaniesPage implements OnInit {
 
-
-  @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
   companies:Company[] = [];
-  private usersChangeSubscription: Subscription;
+  private companiesChangeSubscription: Subscription;
  
   
   
@@ -18,58 +21,44 @@ export class CompaniesPage implements OnInit {
     public router: Router, public alertController:AlertController, public route:ActivatedRoute) { }
   
   async loadCompanies(){
-
-    if(filteredUsers.length === 0 ){
   
-      if(this.usersService.getUsers().length === 0)
-        this.usersService.fetchUsers();
+      if(this.companiesService.getCompanies().length === 0)
+        this.companiesService.fetchCompanies();
        await this.loadingController.create({
-        message: "Caricamento visitatori...", spinner:"bubbles", backdropDismiss:true
-       }).then(loadingEl => {this.users =  this.usersService.getUsers();
+        message: "Caricamento aziende...", spinner:"bubbles", backdropDismiss:true
+       }).then(loadingEl => {this.companies =  this.companiesService.getCompanies();
           loadingEl.present(); 
-          this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
-          this.users = users;
+          this.companiesChangeSubscription = this.companiesService.companiesChanged.subscribe(companies  => {
+          this.companies = companies;
               });
-              if(this.users.length>0)
+              if(this.companies.length>0)
               loadingEl.dismiss()
         });
     
-    }
-  
-  
   }
   
   
   
   
    ngOnInit() {
-  
    this.loadCompanies();
-  
-   this.filteredUsersChangeSubscription = this.usersService.filteredUsersChanged.subscribe(users  => {
-    this.users = users;
-    if(users.length > 0 && users)
-    this.isFiltered = true;
-       
-      });
-  
     }
   
   
-  onSelectUser(user){
+  onSelectCompany(company){
     this.actionSheetController
         .create({
           buttons: [
             {
               text: 'Modifica',
               handler: () => {
-                this.editUser(user.userId);
+                this.editCompany(company.companyId);
               }
             },
             {
               text: 'Dettagli',
               handler: () => {
-                this.showUserDetails(user.userId);
+                this.showCompanyDetails(company.companyId);
               }
             },
             {
@@ -86,7 +75,7 @@ export class CompaniesPage implements OnInit {
                     {
                     text: 'Elimina',
                     handler: () => {
-                      this.deleteUser(user.userId);
+                      this.deleteCompany(company.companyId);
                     }
                   }]
                  }).then(alertEl => {
@@ -104,31 +93,23 @@ export class CompaniesPage implements OnInit {
         });
   }
   
-  deleteUser(userId:string){
-  this.usersService.deleteUser(userId);
+  deleteCompany(companyId:string){
+  this.companiesService.deleteCompany(companyId);
   }
   
-  editUser(userId:string){
-  this.router.navigate(['users/edit', userId]);
+  editCompany(companyId:string){
+  this.router.navigate(['companies/edit', companyId]);
   console.log("edit")
   }
   
-  showUserDetails(userId:string){
-    this.router.navigate(['users/details/',userId]);
+  showCompanyDetails(companyId:string){
+    this.router.navigate(['companies/details/',companyId]);
   }
   
 
   
   ngOnDestroy(){
-  this.usersChangeSubscription.unsubscribe();
-  }
-  
-  scrollToBottom() {
-    this.content.scrollToBottom(500);
-  }
-  
-  scrollToTop() {
-    this.content.scrollToTop(500);
+  this.companiesChangeSubscription.unsubscribe();
   }
 
 }

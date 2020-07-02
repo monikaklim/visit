@@ -4,9 +4,6 @@
       <ion-menu-button  color = "light"></ion-menu-button>
     </ion-buttons>
     <ion-title color = "light">Aziende</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click) = "scrollToBottom()" fill="clear"> <ion-icon name="arrow-down-circle-outline" color = "light" slot="icon-only" size="large"></ion-icon></ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,12 +13,12 @@
 
 <ion-card>
   <ion-card-header class = "ion-text-center">
-    <ion-card-subtitle>Elenco Visitatori  </ion-card-subtitle> 
+    <ion-card-subtitle>Elenco Aziende  </ion-card-subtitle> 
     
   </ion-card-header>
 
   <ion-card-content>
-    <ion-grid  size-sm>
+    <ion-grid  >
       
       <ion-row class="ion-margin-bottom">
         <ion-col><b>Nome</b></ion-col>
@@ -31,15 +28,13 @@
     <ion-list>
      
       
-      <ion-row  *ngFor="let company of companies; let i = index" class = "ion-padding" >
-      
-          <ion-item (click) = "onSelectCompany(company)" style="font-size:small;" >
+      <ion-row  *ngFor="let company of companies; let i = index" class = "ion-padding" (click) = "onSelectCompany(company)" style="font-size:small;" >
+     
         <ion-col >{{ company.name }}</ion-col>
         <ion-col >{{ company.city }}</ion-col>
         <ion-col >{{ company.address }}</ion-col>
-      </ion-item>
+    
       </ion-row>
-   
    
     </ion-list>
     </ion-grid>
@@ -51,14 +46,12 @@
     <ion-row class="toolbar-row">
       <ion-col routerLink="new" >
       
-        <p style="color:white">  <ion-icon name="person-add" color = "light" ></ion-icon> Aggiungi</p>
+        <p style="color:white">  <ion-icon name="add-circle-outline" color = "light" ></ion-icon> Aggiungi</p>
       </ion-col>
       <ion-col routerLink="search">
         <p style="color:white">  <ion-icon name="search" color = "light"></ion-icon> Cerca</p>
       </ion-col>
-      <ion-col size="2"> 
-        <ion-button (click) = "scrollToTop()" fill="clear"> <ion-icon name="arrow-up-circle-outline" color = "light" slot="icon-only"></ion-icon></ion-button>
-      </ion-col>
+  
     </ion-row>
   </ion-toolbar>
 </ion-footer>
