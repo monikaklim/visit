@@ -70,7 +70,7 @@ deleteCompany(companyId:string){
     loadingEl.present();
   const index = this.companies.findIndex(u => u.companyId === companyId);
   this.companies.splice(index,1);
-  this.http.delete(this.apiUrl + "companies/" + companyId).subscribe(res => { loadingEl.dismiss()});
+  this.http.delete(this.apiUrl + "company/" + companyId).subscribe(res => { loadingEl.dismiss()});
   this.companiesChanged.next(this.companies);
   });
 }
