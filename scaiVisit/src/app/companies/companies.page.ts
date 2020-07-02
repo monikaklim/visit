@@ -24,24 +24,26 @@ export class CompaniesPage implements OnInit {
   
       if(this.companiesService.getCompanies().length === 0)
         this.companiesService.fetchCompanies();
-       await this.loadingController.create({
-        message: "Caricamento aziende...", spinner:"bubbles", backdropDismiss:true
-       }).then(loadingEl => {this.companies =  this.companiesService.getCompanies();
-          loadingEl.present(); 
-          this.companiesChangeSubscription = this.companiesService.companiesChanged.subscribe(companies  => {
-          this.companies = companies;
-              });
-              if(this.companies.length>0)
-              loadingEl.dismiss()
-        });
     
-  }
+         this.companies =  this.companiesService.getCompanies();
+
+          this.companiesChangeSubscription = this.companiesService.companiesChanged.subscribe(companies  => {
+            this.companies = companies;
+              });
+                 
+        }
+    
   
   
   
   
    ngOnInit() {
-   this.loadCompanies();
+    this.loadingController.create({
+      message: "Caricamento aziende...", spinner:"bubbles", backdropDismiss:true
+     }).then(loadingEl => {
+       loadingEl.present();
+      this.loadCompanies();
+      loadingEl.dismiss()})
     }
   
   

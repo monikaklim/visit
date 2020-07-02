@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
 import { UsersService } from './../users.service';
-import { Subscription } from 'rxjs';
 import { User } from '../user.model';
 import { NavController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
