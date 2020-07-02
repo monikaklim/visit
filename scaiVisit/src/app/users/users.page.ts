@@ -1,9 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { UsersService } from './users.service';
 import { Subscription } from 'rxjs';
-import { LoadingController, ActionSheetController, IonItemSliding, NavController, AlertController, IonContent } from '@ionic/angular';
+import { LoadingController, ActionSheetController, IonItemSliding, NavController, AlertController, IonContent, ModalController } from '@ionic/angular';
 import { User } from './user.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CompaniesService } from '../companies/companies.service';
+import { Company } from './../companies/company.model';
+
+
 
 
 @Component({
@@ -14,13 +18,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class UsersPage implements OnInit, OnDestroy {
 @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
 users:User[] = [];
+companies:Company[]=[];
 private usersChangeSubscription: Subscription;
 private filteredUsersChangeSubscription: Subscription;
+private companiesChangedSubscription: Subscription;
 isFiltered = false;
 
 
-constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,
-  public router: Router, public alertController:AlertController, public route:ActivatedRoute) { }
+constructor(public usersService:UsersService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,public companiesService:CompaniesService,
+  public router: Router, public alertController:AlertController, public route:ActivatedRoute, public modalController: ModalController) { }
 
 async loadUsers(){
 let filteredUsers = this.usersService.getFilteredUsers();
@@ -51,12 +57,18 @@ let filteredUsers = this.usersService.getFilteredUsers();
 
  this.loadUsers();
 
+ this.companiesService.fetchCompanies();
+ this.companies = this.companiesService.getCompanies();
+ this.companiesChangedSubscription =  this.companiesService.companiesChanged.subscribe(companies => {
+   this.companies = companies
+ })
+
  this.filteredUsersChangeSubscription = this.usersService.filteredUsersChanged.subscribe(users  => {
   this.users = users;
   if(users.length > 0 && users)
   this.isFiltered = true;
      
-    });
+ });
 
   }
 
@@ -127,10 +139,52 @@ this.isFiltered = false;
 this.usersService.setFilteredUsers([]);
 this.loadUsers();
 }
-checkIn(slidingItem: IonItemSliding){
-  console.log("checkin")
-  slidingItem.close();
+
+
+
+ async showAlert(user:User){
+  const visit = {userId:user.userId, type:1 };
+
+  let inputs = [];
+  for(let company of this.companies){
+    inputs.push({name:company.name, type:'radio', label: company.name, value:company});
+  }
+
+
+  const alert = await this.alertController.create({
+   
+    header: 'Seleziona Azienda',
+    inputs: inputs,
+    buttons: [
+      {
+        text: 'Annulla',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          console.log('Confirm Cancel');
+        }
+      }, 
+      {
+        text: 'Conferma',
+        handler: (alertData) => {
+          if(alertData)
+        this.checkIn(visit, alertData)
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+
 }
+
+
+checkIn(visit,company:Company){
+  let newVisit = {...visit, companyId:company.companyId};
+  console.log(newVisit)
+}
+
+
 
 
 ngOnDestroy(){

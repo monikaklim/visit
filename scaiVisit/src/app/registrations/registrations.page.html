@@ -17,12 +17,10 @@
   <ion-icon name="close" (click) = "cancelFilter()"></ion-icon>
 </ion-chip>
 
-
 <ion-card class ="ion-padding">
   <ion-card-header class = "ion-text-center">
-
     <ion-card-subtitle>Elenco Ingressi e Uscite </ion-card-subtitle> 
-   
+   <b>  {{todaysDate.toLocaleDateString()}} </b>
   </ion-card-header>
 
   <ion-card-content>
@@ -40,13 +38,13 @@
       
       <ion-row  *ngFor="let registration of registrations; let i = index" class = "ion-padding" >
 
-          <ion-item  style="font-size:small;" >
-            <ion-col>{{ registration.type }}</ion-col>
-        <ion-col >{{registration.user.firstname }}</ion-col>
-        <ion-col >{{registration.user.lastname }}</ion-col>
-        <ion-col >{{ registration.company.name }}</ion-col>
-        <ion-col >{{ registration.time }}</ion-col>
-      </ion-item>
+        <ion-item  style="font-size:small;" >
+          <ion-col>{{ registration.type }}</ion-col>
+          <ion-col >{{registration.user.firstname }}</ion-col>
+          <ion-col >{{registration.user.lastname }}</ion-col>
+          <ion-col >{{ registration.company.name }}</ion-col>
+          <ion-col >{{ registration.time }}</ion-col>
+        </ion-item>
      
       </ion-row>
    

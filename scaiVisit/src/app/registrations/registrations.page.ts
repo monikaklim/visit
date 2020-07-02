@@ -17,7 +17,8 @@ export class RegistrationsPage implements OnInit {
   registrations:Registration;
   private registrationsChangeSubscription: Subscription;
   isFiltered = false;
-  
+  todaysDate = new Date();
+
   constructor(public usersService:UsersService,public companiesService:CompaniesService, public registrationsService:RegistrationsService, public loadingController: LoadingController,
     public router: Router, public alertController:AlertController, public route:ActivatedRoute) { }
   

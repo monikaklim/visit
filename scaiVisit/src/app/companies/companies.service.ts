@@ -16,7 +16,7 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 private companies:Company[] = [];
 companiesChanged = new Subject<Company[]>();
 private filteredCompanies:Company[] = [];
-filteredCompaniesChanged = new Subject<Company[]>();
+
 
 
 getCompanies(){
@@ -41,7 +41,7 @@ getFilteredCompanies(){
 
 setFilteredCompanies(companies){
   this.filteredCompanies = companies;
-  this.filteredCompaniesChanged.next(this.filteredCompanies);
+
 }
 
 fetchCompanies(){
