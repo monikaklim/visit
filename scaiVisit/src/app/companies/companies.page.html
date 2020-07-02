@@ -28,7 +28,7 @@
     <ion-list>
      
       
-      <ion-row  *ngFor="let company of companies; let i = index" class = "ion-padding" (click) = "onSelectCompany(company)" style="font-size:small;" >
+      <ion-row  *ngFor="let company of companies; let i = index" class = "ion-padding" (click) = "onSelectCompany(company)" style="font-size:medium;" >
      
         <ion-col >{{ company.name }}</ion-col>
         <ion-col >{{ company.city }}</ion-col>
