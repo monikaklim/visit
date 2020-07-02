@@ -11,13 +11,21 @@ export class SharedService {
   private pdf:any
   private signature: any;
   private sedi: any;
-  private azienda:any;
-  private sede:any;
+
+  sede: "Torino";
+  multipleCompanies: true;
+  azienda: {
+    companyId: 1,
+    sede: "Torino"
+  };
+  shouldSign: false;
+  shouldSignPresenceLog: true;
+
+
 
   constructor(public http:HttpClient, public authService:AuthService) { }
 
   
-  /** COMPANIES **/
  fetchSedi() {
     let headers = new HttpHeaders().set(
       "Authorization",
@@ -50,6 +58,17 @@ export class SharedService {
   }
 
 
+  /** DOMAINS **/
+  findDomains() {
+    let headers = new HttpHeaders().set(
+      "Authorization",
+      "Bearer " + this.authService.getToken()
+    );
+    return this.http.get(this.apiUrl + "domains", {
+      observe: "response",
+      headers: headers
+    });
+  }
 
 
   /** PDF **/
@@ -65,17 +84,6 @@ export class SharedService {
     });
   }
 
-  /** DOMAINS **/
-  findDomains() {
-    let headers = new HttpHeaders().set(
-      "Authorization",
-      "Bearer " + this.authService.getToken()
-    );
-    return this.http.get(this.apiUrl + "domains", {
-      observe: "response",
-      headers: headers
-    });
-  }
 
   setPdf(pdf){
     this.pdf = pdf;

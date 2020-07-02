@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color ="scaiblue">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="users" color ="light" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title color = "light">Visitatori</ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content padding>
+  <signature-pad
+    [options]="signaturePadOptions"
+    id="signatureCanvas"
+    #signatureCanvas
+  ></signature-pad>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="scaiblue">
+    <ion-row class="toolbar-row">
+      <ion-col>
+        <button ion-button full outline class="outline-clear" (click)="clear()">
+          ANNULLA
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button full outline class="outline-clear" (click)="sign()">
+          FIRMA
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

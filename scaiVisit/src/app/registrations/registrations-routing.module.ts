@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: RegistrationsPage
+  },  {
+    path: 'signature',
+    loadChildren: () => import('./signature/signature.module').then( m => m.SignaturePageModule)
   }
+
 ];
 
 @NgModule({
