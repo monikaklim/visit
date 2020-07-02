@@ -28,6 +28,7 @@ export class AppComponent {
       this.splashScreen.hide();
       if(localStorage.getItem("token"))
         this.usersService.fetchUsers();
+
     });
   }
 

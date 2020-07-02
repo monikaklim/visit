@@ -5,6 +5,7 @@ import { LoadingController, ActionSheetController, IonItemSliding, NavController
 import { User } from './user.model';
 import { Router, ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.page.html',
@@ -32,17 +33,17 @@ let filteredUsers = this.usersService.getFilteredUsers();
      }).then(loadingEl => {this.users =  this.usersService.getUsers();
         loadingEl.present(); 
         this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
-        this.users = users;
+        this.users = users;  
+         loadingEl.dismiss()
             });
-            if(this.users.length>0)
-            loadingEl.dismiss()
+         
+         
       });
   
   }
 
 
 }
-
 
 
 
@@ -134,6 +135,7 @@ checkIn(slidingItem: IonItemSliding){
 
 ngOnDestroy(){
 this.usersChangeSubscription.unsubscribe();
+this.filteredUsersChangeSubscription.unsubscribe();
 }
 
 scrollToBottom() {

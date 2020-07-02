@@ -22,7 +22,7 @@
 <ion-card>
   <ion-card-header class = "ion-text-center">
     <ion-card-subtitle>Elenco Visitatori  </ion-card-subtitle> 
-    
+   
   </ion-card-header>
 
   <ion-card-content>
@@ -45,13 +45,12 @@
       </ion-item>
         <ion-item-options side="end">
           <ion-item-option  color = "scaiblue" (click) = "checkIn(slidingItem)">
-            <ion-icon color ="light" name="enter-sharp">
+            <ion-icon color ="light" name="enter-sharp" slot ="icon-only">
           </ion-icon>
         </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
       </ion-row>
-   
    
     </ion-list>
     </ion-grid>
@@ -68,7 +67,7 @@
       <ion-col routerLink="search">
         <p style="color:white">  <ion-icon name="search" color = "light"></ion-icon> Cerca</p>
       </ion-col>
-      <ion-col size="2"> 
+      <ion-col size="1"> 
         <ion-button (click) = "scrollToTop()" fill="clear"> <ion-icon name="arrow-up-circle-outline" color = "light" slot="icon-only"></ion-icon></ion-button>
       </ion-col>
     </ion-row>

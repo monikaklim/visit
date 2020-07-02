@@ -11,9 +11,7 @@ import {environment} from './../../environments/environment';
 export class CompaniesService {
 
   private apiUrl:string = environment.apiUrl;
-constructor(public http: HttpClient, public loadingController:LoadingController) { 
-
-}
+constructor(public http: HttpClient, public loadingController:LoadingController) { }
 
 private companies:Company[] = [];
 companiesChanged = new Subject<Company[]>();
