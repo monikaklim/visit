@@ -6,6 +6,8 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
 import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
 import { SharedService } from './../../shared/shared.service';
 import { ActivatedRoute } from '@angular/router';
+import { Registration } from '../registration.model';
+import { RegistrationsService } from './../registrations.service';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -33,19 +35,17 @@ constructor(
   public navController: NavController,
   private loadingController: LoadingController,
   private platform: Platform,
-  public route:ActivatedRoute
+  public route:ActivatedRoute,
+  public registrationsService:RegistrationsService
 ) {}
 
 ngOnInit() {
   this.route.paramMap.subscribe(paramMap => {
-    if (!paramMap.has('userId') || !paramMap.has('companyId') || !paramMap.has('type')) {
-      this.navController.navigateBack('/users');
-      }
-     else{
+
       this.userId = paramMap.get('userId');
       this.companyId = paramMap.get('companyId');
       this.registrationType = +paramMap.get('type');
-     }
+     
     });
   
 }
@@ -65,11 +65,14 @@ public SignaturePadOptions = {
 sign() {
 
 const signatureImage = this.signatureCanvas.toDataURL('image/jpeg');
-
-  let visit = { signature:signatureImage };
-
-  let data = { shouldReload: true, visita: visita };
-
+let visit = new Registration("0",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
+this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
+  loadingEl.present();  
+  this.registrationsService.saveRegistration(visit);
+  loadingEl.dismiss();
+  this.navController.navigateForward('/registrations');
+}
+)
 }
 
 clear() {
