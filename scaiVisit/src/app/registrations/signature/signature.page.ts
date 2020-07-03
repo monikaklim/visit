@@ -1,10 +1,12 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, OnInit } from "@angular/core";
 import {NavController,LoadingController,Platform} from "@ionic/angular";
-import { SignaturePad } from "angular2-signaturepad/signature-pad";
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import * as pdfMake from "pdfmake/build/pdfmake.js";
 import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
 import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
 import { SharedService } from './../../shared/shared.service';
+import { ActivatedRoute } from '@angular/router';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -12,41 +14,69 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   templateUrl: './signature.page.html',
   styleUrls: ['./signature.page.scss'],
 })
-export class SignaturePage {
-@ViewChild("signatureCanvas") private signatureCanvas: any;
-@ViewChild(SignaturePad) public signaturePad: SignaturePad;
-data: any;
-azienda: any = "";
-sede: any;
-aziende: Array<any> = [];
-sedi: Array<any> = [];
-pdfDocGenerator: any;
+export class SignaturePage implements OnInit{
 
+@ViewChild("signatureCanvas", {static:false}) private signatureCanvas: any;
+pdfDocGenerator: any;
 public signaturePadOptions: Object = {
   minWidth: 2,
   canvasWidth: 340,
   canvasHeight: 200
 };
-public signatureImage: string;
+signatureImage: string;
+userId:string;
+companyId:string;
+registrationType:number; // 1 enter - 2 exit
 
 constructor(
   public sharedService:SharedService,
   public navController: NavController,
   private loadingController: LoadingController,
   private platform: Platform,
+  public route:ActivatedRoute
 ) {}
 
-ionViewWillEnter() {
-  this.azienda = "";
-  if (this.sharedService.multipleCompanies) {
-    this.azienda = this.sharedService.getAzienda();
-  } else {
-    this.azienda = this.sharedService.azienda;
-  }
+ngOnInit() {
+  this.route.paramMap.subscribe(paramMap => {
+    if (!paramMap.has('userId') || !paramMap.has('companyId') || !paramMap.has('type')) {
+      this.navController.navigateBack('/users');
+      }
+     else{
+      this.userId = paramMap.get('userId');
+      this.companyId = paramMap.get('companyId');
+      this.registrationType = +paramMap.get('type');
+     }
+    });
+  
 }
-ionViewDidEnter() {
-  this.sedi = this.sharedService.getSedi();
-  this.sede = this.sharedService.getSede();
+
+
+
+public SignaturePadOptions = {
+  'minWidth':2,
+  'penColor':'rgb(66,133,244)',
+  'backgroundColor':'rgb(255,255,255)',
+  'canvasWidth':450,
+  'canvasHeight':150,
+};
+
+
+
+sign() {
+
+const signatureImage = this.signatureCanvas.toDataURL('image/jpeg');
+
+  let visit = { signature:signatureImage };
+
+  let data = { shouldReload: true, visita: visita };
+
 }
+
+clear() {
+  this.signatureCanvas.clear();
+}
+
+
+
 
 }

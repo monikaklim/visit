@@ -143,7 +143,7 @@ this.loadUsers();
 
 
  async showAlert(user:User){
-  const visit = {userId:user.userId, type:1 };
+  const userId = user.userId;
 
   let inputs = [];
   for(let company of this.companies){
@@ -168,7 +168,7 @@ this.loadUsers();
         text: 'Conferma',
         handler: (alertData) => {
           if(alertData)
-        this.checkIn(visit, alertData)
+        this.checkIn(userId, alertData)
         }
       }
     ]
@@ -179,9 +179,8 @@ this.loadUsers();
 }
 
 
-checkIn(visit,company:Company){
-  let newVisit = {...visit, companyId:company.companyId};
-  console.log(newVisit)
+checkIn(userId:string,company:Company){
+ this.router.navigateByUrl('registrations/signature?userId='+userId+'&companyId='+company.companyId+'&type=1');
 }
 
 
