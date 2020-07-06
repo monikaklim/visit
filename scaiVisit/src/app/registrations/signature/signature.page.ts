@@ -67,15 +67,15 @@ public SignaturePadOptions = {
 sign() {
 
 const signatureImage = this.signatureCanvas.toDataURL('image/jpeg');
-console.log(signatureImage)
 let visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
 this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
   loadingEl.present();  
   this.registrationsService.saveRegistration(visit);
   loadingEl.dismiss();
+  this.signatureCanvas.clear();
   this.navController.navigateForward('/registrations');
-}
-)
+
+})
 }
 
 clear() {

@@ -13,15 +13,16 @@ import { Registration } from './registration.model';
 export class RegistrationsService {
 
 private apiUrl:string = environment.apiUrl;
-private registrations: Registration[] = [];
-registrationsChanged = new Subject<Registration[]>();
+private registrations: any = {};
+registrationsChanged = new Subject<any>();
 
 
 constructor(public http: HttpClient, public loadingController:LoadingController) { }
 
 
-  setRegistrations(registrations:Registration[]){
+  setRegistrations(registrations){
     this.registrations = registrations;
+    this.registrationsChanged.next(this.registrations);
   }
 
   getRegistrations(){
@@ -30,17 +31,17 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 
   findRegistrazioniToday(sede) {
 
-    return this.http.get<Registration[]>(this.apiUrl + "registrationstoday/" + sede).subscribe(res => this.setRegistrations(res));
+    return this.http.get<any>(this.apiUrl + "registrationstoday/" + sede).subscribe(res => {this.setRegistrations(res.registrazioneDaily[0])});
   }
 
   findRegistrazioni(filtro) {
 
-    return this.http.post<Registration[]>(this.apiUrl + "registrationsfiltered", filtro).subscribe(res => this.setRegistrations(res) );
+    return this.http.post<any>(this.apiUrl + "registrationsfiltered", filtro).subscribe(res => this.setRegistrations(res) );
   }
 
   findRegistrazioniPdf(filtro) {
 
-    return this.http.post<Registration[]>(this.apiUrl + "registrationsfilteredpdf", filtro).subscribe(res => console.log(res));
+    return this.http.post<any>(this.apiUrl + "registrationsfilteredpdf", filtro).subscribe(res => console.log(res));
   }
 
   saveRegistration(visita:Registration) {

@@ -56,9 +56,9 @@ export class LoginPage {
                   loadingEl.dismiss();
                 }else{
                   let opzioni = {
-                    domain : this.sharedService.sede
+                    domain : this.sharedService.getSede()
                   }
-                  this.sharedService.setSede(this.sharedService.sede);
+                  this.sharedService.setSede(this.sharedService.getSede());
                   localforage.setItem("options", opzioni);
                   this.navCtrl.navigateRoot('home');
                   loadingEl.dismiss();

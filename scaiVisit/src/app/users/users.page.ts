@@ -42,13 +42,8 @@ let filteredUsers = this.usersService.getFilteredUsers();
         this.users = users;  
          loadingEl.dismiss()
             });
-         
-         
       });
-  
   }
-
-
 }
 
 

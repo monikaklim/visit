@@ -11,8 +11,7 @@ export class SharedService {
   private pdf:any
   private signature: any;
   private sedi: any;
-
-  sede: "Torino";
+  private sede: "Torino";
   multipleCompanies: true;
   azienda: {
     companyId: 1,
