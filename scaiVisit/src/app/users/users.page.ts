@@ -142,9 +142,9 @@ this.loadUsers();
 
 
 
- async showAlert(user:User){
+ async showAlert(user:User,slidingItem:IonItemSliding){
   const userId = user.userId;
-
+  slidingItem.close();
   let inputs = [];
   for(let company of this.companies){
     inputs.push({name:company.name, type:'radio', label: company.name, value:company});

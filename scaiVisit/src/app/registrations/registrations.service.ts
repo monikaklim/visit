@@ -45,6 +45,7 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 
   saveRegistration(visita:Registration) {
     this.registrations.push(visita);
+    console.log(visita)
     return this.http.post(this.apiUrl + "registration", visita).subscribe(res => console.log(res));
   }
 

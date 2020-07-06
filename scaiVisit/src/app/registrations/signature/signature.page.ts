@@ -5,7 +5,7 @@ import * as pdfMake from "pdfmake/build/pdfmake.js";
 import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
 import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
 import { SharedService } from './../../shared/shared.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Registration } from '../registration.model';
 import { RegistrationsService } from './../registrations.service';
 
@@ -40,14 +40,16 @@ constructor(
 ) {}
 
 ngOnInit() {
-  this.route.paramMap.subscribe(paramMap => {
+
+  this.route.queryParamMap.subscribe(paramMap => {
 
       this.userId = paramMap.get('userId');
       this.companyId = paramMap.get('companyId');
       this.registrationType = +paramMap.get('type');
      
-    });
-  
+    }); 
+    console.log(this.userId)
+    console.log(this.companyId)
 }
 
 
@@ -65,7 +67,8 @@ public SignaturePadOptions = {
 sign() {
 
 const signatureImage = this.signatureCanvas.toDataURL('image/jpeg');
-let visit = new Registration("0",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
+console.log(signatureImage)
+let visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
 this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
   loadingEl.present();  
   this.registrationsService.saveRegistration(visit);
