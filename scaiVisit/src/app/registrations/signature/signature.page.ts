@@ -20,60 +20,69 @@ export class SignaturePage implements OnInit{
 
 @ViewChild("signatureCanvas", {static:false}) private signatureCanvas: any;
 pdfDocGenerator: any;
-public signaturePadOptions: Object = {
-  minWidth: 2,
-  canvasWidth: 340,
-  canvasHeight: 200
+
+public signaturePadOptions = {
+  minWidth:2,
+  penColor:'#0f618d',
+  backgroundColor:'#f0f5f5',
+  canvasWidth:500,
+  canvasHeight:250,
 };
+
 signatureImage: string;
 userId:string;
 companyId:string;
 registrationType:number; // 1 enter - 2 exit
+registrationId:string;
 
 constructor(
   public sharedService:SharedService,
   public navController: NavController,
   private loadingController: LoadingController,
-  private platform: Platform,
   public route:ActivatedRoute,
   public registrationsService:RegistrationsService
 ) {}
 
 ngOnInit() {
 
-  this.route.queryParamMap.subscribe(paramMap => {
-
-      this.userId = paramMap.get('userId');
+this.route.queryParamMap.subscribe(paramMap => {
+if( paramMap.get('userId') && paramMap.get('companyId') && paramMap.get('type') ){
+   this.userId = paramMap.get('userId');
       this.companyId = paramMap.get('companyId');
       this.registrationType = +paramMap.get('type');
+}else{
+  if( paramMap.get('registrationId') && paramMap.get('type')){
+    this.registrationType = +paramMap.get('type');
+    this.registrationId = paramMap.get('registrationId');
+  }
+  else{
+    console.warn("err")
+  }
+}
+     
      
     }); 
-    console.log(this.userId)
-    console.log(this.companyId)
+  
 }
 
 
 
-public SignaturePadOptions = {
-  'minWidth':2,
-  'penColor':'rgb(66,133,244)',
-  'backgroundColor':'rgb(255,255,255)',
-  'canvasWidth':450,
-  'canvasHeight':150,
-};
-
 
 
 sign() {
-
+let visit = this.registrationsService.getRegistrationById(this.registrationId)
+console.log(visit)
 const signatureImage = this.signatureCanvas.toDataURL('image/jpeg');
-let visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
+if(this.registrationType == 1)
+ visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
+if(this.registrationType == 2)
+visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
 this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
   loadingEl.present();  
-  this.registrationsService.saveRegistration(visit);
+ // this.registrationsService.saveRegistration(visit);
   loadingEl.dismiss();
   this.signatureCanvas.clear();
-  this.navController.navigateForward('/registrations');
+  //this.navController.navigateForward('/registrations');
 
 })
 }

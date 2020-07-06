@@ -19,35 +19,28 @@
 
 <ion-card class ="ion-padding">
   <ion-card-header class = "ion-text-center">
-    <ion-card-subtitle>Elenco Ingressi e Uscite </ion-card-subtitle> 
+    <ion-card-subtitle>Elenco Ingressi </ion-card-subtitle> 
    <b>  {{todaysDate.toLocaleDateString()}} </b>
   </ion-card-header>
 
   <ion-card-content>
-    <ion-grid  >
+    <ion-grid  style="font-size:medium;" >
     
-      <ion-row class="ion-margin-bottom" style="font-size:small;">
+      <ion-row class="ion-margin-bottom">
         
         <ion-col><b>Visitatore</b></ion-col>
         <ion-col><b>Azienda</b></ion-col>
         <ion-col><b>Orario</b></ion-col>
-        <ion-col><b>CheckOut</b></ion-col>
+        <ion-col> </ion-col>
       </ion-row>
 
-     <ion-list>
-  
-      <ion-row  *ngFor="let registration of registrations" class = "ion-margin" >
+    <ion-row *ngFor="let registration of registrations" class="ion-margin-bottom">
+      <ion-col >{{registration.userFirstName }} {{registration.userLastName }}</ion-col>
+      <ion-col >{{registration.company }}</ion-col>
+      <ion-col >{{ registration.time | date:'mediumTime'}}</ion-col>
+      <ion-col > <ion-button color="scaiblue" (click) ="checkOut(registration.userFirstName, registration.userLastName,registration.registrazioneId)"><ion-icon color ="light" name="enter-sharp" slot ="icon-only" size="small" ></ion-icon> </ion-button>  </ion-col>
+  </ion-row>
 
-        <ion-item > 
-          <ion-col >{{registration.userFirstName }} {{registration.userLastName }}</ion-col>
-          <ion-col >{{registration.company }}</ion-col>
-          <ion-col >{{ registration.time | date:'mediumTime'}}</ion-col>
-          <ion-col > <ion-button color="scaiblue"><ion-icon color ="light" name="enter-sharp" slot ="icon-only"></ion-icon> </ion-button>  </ion-col>
-        </ion-item>
-     
-      </ion-row>
-   
-    </ion-list>
     </ion-grid>
   </ion-card-content>
 </ion-card>

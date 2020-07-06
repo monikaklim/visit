@@ -28,6 +28,9 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
   getRegistrations(){
     return this.registrations;
   }
+  getRegistrationById(id){
+    return this.registrations.find(reg => reg.registrazioneId == id);
+  }
 
   findRegistrazioniToday(sede) {
 

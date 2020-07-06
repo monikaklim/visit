@@ -44,7 +44,27 @@ export class RegistrationsPage implements OnInit {
     this.loadRegistrationsToday();
   }
 
+ checkOut(firstName:string,lastName:string,idRegistration){
+  
+ this.alertController.create({
+    header:"Conferma uscita",
+    subHeader: 'Confermi l\'uscita di'+ firstName + ' '+ lastName + "?",
+    
+    buttons: [
+      {
+        text: 'Annulla',
+        role: 'cancel',
+        cssClass: 'secondary'
+      }, 
+      {
+        text: 'Conferma',
+        handler: () => { this.router.navigateByUrl('registrations/signature?registrationId='+idRegistration+'&type=2');
+        }
+      }
+    ]
+  }).then(alertEl => alertEl.present());
 
+}
 
 
   scrollToBottom() {
