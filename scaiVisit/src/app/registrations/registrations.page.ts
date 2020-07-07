@@ -15,7 +15,7 @@ import { SharedService } from './../shared/shared.service';
 })
 export class RegistrationsPage implements OnInit {
   @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
-  registrations:[] =  [];
+  registrations:any[] =  [];
   private registrationsChangeSubscription: Subscription;
   isFiltered = false;
   todaysDate = new Date();
@@ -48,7 +48,7 @@ export class RegistrationsPage implements OnInit {
   
  this.alertController.create({
     header:"Conferma uscita",
-    subHeader: 'Confermi l\'uscita di'+ firstName + ' '+ lastName + "?",
+    subHeader: 'Confermi l\'uscita di '+ firstName + ' '+ lastName + "?",
     
     buttons: [
       {

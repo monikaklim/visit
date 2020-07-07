@@ -13,7 +13,7 @@ import { Registration } from './registration.model';
 export class RegistrationsService {
 
 private apiUrl:string = environment.apiUrl;
-private registrations: any = {};
+private registrations: any[] = [];
 registrationsChanged = new Subject<any>();
 
 
@@ -28,8 +28,9 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
   getRegistrations(){
     return this.registrations;
   }
-  getRegistrationById(id){
-    return this.registrations.find(reg => reg.registrazioneId == id);
+  getRegistrationById(id:string){
+    const registrations = this.registrations.slice();
+    return registrations.find(reg => reg.registrazioneId == id);
   }
 
   findRegistrazioniToday(sede) {
@@ -47,16 +48,21 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
     return this.http.post<any>(this.apiUrl + "registrationsfilteredpdf", filtro).subscribe(res => console.log(res));
   }
 
-  saveRegistration(visita:Registration) {
-    this.registrations.push(visita);
-    console.log(visita)
-    return this.http.post(this.apiUrl + "registration", visita).subscribe(res => console.log(res));
+  saveRegistration(visit:Registration) {
+    if(visit.type == 1)
+    this.registrations.push(visit);
+    console.log(visit)
+    this.registrationsChanged.next(this.registrations);
+    return this.http.post(this.apiUrl + "registration", visit).subscribe(res => console.log(res));
   }
 
-  closeRegistration(idVisita) {
-
-    return this.http.post(this.apiUrl + "closeregistration", idVisita).subscribe(res => console.log(res));
-  }
+updateRegistration(visit){
+  const registrations = this.registrations.slice();
+  console.log(visit)
+  const index = registrations.findIndex(reg => reg.registrazioneId == visit.registrazioneId)
+  registrations.splice(index,1);
+  this.setRegistrations(registrations);
+}
 
   countVisitors(filtro) {
 

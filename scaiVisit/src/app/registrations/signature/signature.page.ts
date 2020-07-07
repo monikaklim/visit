@@ -46,22 +46,21 @@ constructor(
 ngOnInit() {
 
 this.route.queryParamMap.subscribe(paramMap => {
-if( paramMap.get('userId') && paramMap.get('companyId') && paramMap.get('type') ){
-   this.userId = paramMap.get('userId');
-      this.companyId = paramMap.get('companyId');
-      this.registrationType = +paramMap.get('type');
-}else{
-  if( paramMap.get('registrationId') && paramMap.get('type')){
-    this.registrationType = +paramMap.get('type');
-    this.registrationId = paramMap.get('registrationId');
+  if( paramMap.get('userId') && paramMap.get('companyId') && paramMap.get('type') ){
+    this.userId = paramMap.get('userId');
+        this.companyId = paramMap.get('companyId');
+        this.registrationType = +paramMap.get('type');
+  }else{
+      if( paramMap.get('registrationId') && paramMap.get('type')){
+        this.registrationType = +paramMap.get('type');
+        this.registrationId = paramMap.get('registrationId');
+      }
+      else{
+        console.warn("no query params")
+      }
   }
-  else{
-    console.warn("err")
-  }
-}
      
-     
-    }); 
+}); 
   
 }
 
@@ -70,19 +69,25 @@ if( paramMap.get('userId') && paramMap.get('companyId') && paramMap.get('type') 
 
 
 sign() {
-let visit = this.registrationsService.getRegistrationById(this.registrationId)
-console.log(visit)
+ 
+let visit;
 const signatureImage = this.signatureCanvas.toDataURL('image/jpeg');
 if(this.registrationType == 1)
  visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
-if(this.registrationType == 2)
-visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
+if(this.registrationType == 2){
+  const oldVisit =  this.registrationsService.getRegistrationById(this.registrationId);
+  console.log(oldVisit)
+  const updatedVisit = {...oldVisit, enabled:0}
+  this.registrationsService.updateRegistration(updatedVisit);
+  visit = {...oldVisit, type:this.registrationType,time:new Date(),firma:signatureImage,enabled:0 };
+}
+
 this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
   loadingEl.present();  
- // this.registrationsService.saveRegistration(visit);
+ this.registrationsService.saveRegistration(visit);
   loadingEl.dismiss();
   this.signatureCanvas.clear();
-  //this.navController.navigateForward('/registrations');
+  this.navController.navigateForward('/registrations');
 
 })
 }

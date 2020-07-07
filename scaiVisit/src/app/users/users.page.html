@@ -38,7 +38,7 @@
       
       <ion-row  *ngFor="let user of users; let i = index" class = "ion-padding" >
         <ion-item-sliding  #slidingItem >
-          <ion-item (click) = "onSelectUser(user)" style="font-size:small;" >
+          <ion-item (click) = "onSelectUser(user)" style="font-size:medium;" >
         <ion-col >{{ user.firstname }}</ion-col>
         <ion-col >{{ user.lastname }}</ion-col>
         <ion-col >{{ user.company }}</ion-col>
