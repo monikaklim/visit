@@ -13,7 +13,7 @@ import { Registration } from './registration.model';
 export class RegistrationsService {
 
 private apiUrl:string = environment.apiUrl;
-private registrations: any[] = [];
+private registrations: Array<any> = [];
 registrationsChanged = new Subject<any>();
 
 
@@ -49,10 +49,11 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
   }
 
   saveRegistration(visit:Registration) {
+    const registrations = this.registrations.slice();
     if(visit.type == 1)
-    this.registrations.push(visit);
+    registrations.push(visit);
     console.log(visit)
-    this.registrationsChanged.next(this.registrations);
+   this.setRegistrations(registrations);
     return this.http.post(this.apiUrl + "registration", visit).subscribe(res => console.log(res));
   }
 

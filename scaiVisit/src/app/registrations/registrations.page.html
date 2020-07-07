@@ -24,7 +24,7 @@
   </ion-card-header>
 
   <ion-card-content>
-    <ion-grid  style="font-size:medium;" >
+    <ion-grid  style="font-size:medium;" *ngIf="registrations.length>0; else elseBlock" >
     
       <ion-row class="ion-margin-bottom">
         
@@ -42,6 +42,24 @@
   </ion-row>
 
     </ion-grid>
+
+
+<ng-template #elseBlock>
+<ion-grid >
+  <ion-row>
+    <ion-col>
+    </ion-col>
+    <ion-col>
+      <ion-chip color ="tertiary" class = "ion-text-center">
+        <ion-label>Nessuna registrazione attiva.</ion-label>
+      </ion-chip>
+    </ion-col>
+    <ion-col>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ng-template>
+
   </ion-card-content>
 </ion-card>
 </ion-content>

@@ -15,7 +15,7 @@ import { SharedService } from './../shared/shared.service';
 })
 export class RegistrationsPage implements OnInit {
   @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
-  registrations:any[] =  [];
+  registrations:Array<any> =  [];
   private registrationsChangeSubscription: Subscription;
   isFiltered = false;
   todaysDate = new Date();
