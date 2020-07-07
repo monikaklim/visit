@@ -24,7 +24,7 @@
   </ion-card-header>
 
   <ion-card-content>
-    <ion-grid  style="font-size:medium;" *ngIf="registrations.length>0; else elseBlock" >
+    <ion-grid  style="font-size:medium;" *ngIf="registrations?.length>0; else elseBlock" >
     
       <ion-row class="ion-margin-bottom">
         
@@ -39,9 +39,9 @@
       <ion-col >{{registration.company }}</ion-col>
       <ion-col >{{ registration.time | date:'mediumTime'}}</ion-col>
       <ion-col > <ion-button color="scaiblue" (click) ="checkOut(registration.userFirstName, registration.userLastName,registration.registrazioneId)"><ion-icon color ="light" name="enter-sharp" slot ="icon-only" size="small" ></ion-icon> </ion-button>  </ion-col>
-  </ion-row>
+    </ion-row>
 
-    </ion-grid>
+  </ion-grid>
 
 
 <ng-template #elseBlock>

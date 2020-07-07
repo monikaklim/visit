@@ -32,7 +32,8 @@ const routes: Routes = [
     path: 'companies',
     loadChildren: () => import('./companies/companies.module').then( m => m.CompaniesPageModule),
     canLoad: [AuthGuard]
-  },
+  }
+
 
 ];
 
