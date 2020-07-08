@@ -11,10 +11,9 @@
 </ion-header>
 
 <ion-content [scrollEvents]="true">
-<ion-chip  *ngIf="isFiltered">
-  <ion-icon name="search" color="primary"></ion-icon>
-  <ion-label>Today</ion-label>
-  <ion-icon name="close" (click) = "loadRegistrationsToday()"></ion-icon>
+<ion-chip color="dark" (click) = "loadRegistrationsToday()" class="ion-padding ion-margin float-right" > 
+  <ion-icon name="calendar-outline" size="large"></ion-icon>
+  <ion-label>Oggi</ion-label>
 </ion-chip>
 
 <ion-card class ="ion-padding">
