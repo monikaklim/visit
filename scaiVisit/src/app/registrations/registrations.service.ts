@@ -40,7 +40,7 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 
   findRegistrazioni(filtro) {
 
-    return this.http.post<any>(this.apiUrl + "registrationsfiltered", filtro).subscribe(res => this.setRegistrations(res) );
+    return this.http.post<any>(this.apiUrl + "registrationsfiltered", filtro).subscribe(res => this.setRegistrations(res.registrazioneDaily[0]) );
   }
 
   findRegistrazioniPdf(filtro) {

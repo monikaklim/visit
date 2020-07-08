@@ -20,7 +20,7 @@
 <ion-card class ="ion-padding">
   <ion-card-header class = "ion-text-center">
     <ion-card-subtitle>Elenco Ingressi </ion-card-subtitle> 
-   <b>  {{todaysDate.toLocaleDateString()}} </b>
+
   </ion-card-header>
 
   <ion-card-content>
@@ -38,7 +38,7 @@
       <ion-col >{{registration.userFirstName }} {{registration.userLastName }}</ion-col>
       <ion-col >{{registration.company }}</ion-col>
       <ion-col >{{ registration.time | date:'mediumTime'}}</ion-col>
-      <ion-col > <ion-button color="scaiblue" (click) ="checkOut(registration.userFirstName, registration.userLastName,registration.registrazioneId)"><ion-icon color ="light" name="enter-sharp" slot ="icon-only" size="small" ></ion-icon> </ion-button>  </ion-col>
+      <ion-col > <ion-button *ngIf="registration.enabled" color="scaiblue" (click) ="checkOut(registration.userFirstName, registration.userLastName,registration.registrazioneId)"><ion-icon color ="light" name="enter-sharp" slot ="icon-only" size="small" ></ion-icon> </ion-button>  </ion-col>
     </ion-row>
 
   </ion-grid>

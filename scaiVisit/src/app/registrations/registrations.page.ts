@@ -17,8 +17,7 @@ export class RegistrationsPage implements OnInit {
   @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
   registrations:Array<any> =  [];
   private registrationsChangeSubscription: Subscription;
-  isFiltered = false;
-  todaysDate = new Date();
+
 
   constructor(public usersService:UsersService,public companiesService:CompaniesService, public registrationsService:RegistrationsService,public sharedService:SharedService, public loadingController: LoadingController,
     public router: Router, public alertController:AlertController, public route:ActivatedRoute) { }
