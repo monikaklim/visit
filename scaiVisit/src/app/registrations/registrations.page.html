@@ -19,28 +19,36 @@
 <ion-card class ="ion-padding">
   <ion-card-header class = "ion-text-center">
     <ion-card-subtitle>Elenco Ingressi </ion-card-subtitle> 
-
+{{date |date:"mediumDate"}}
   </ion-card-header>
 
   <ion-card-content>
-    <ion-grid  style="font-size:medium;" *ngIf="registrations?.length>0; else elseBlock" >
-    
-      <ion-row class="ion-margin-bottom">
-        
-        <ion-col><b>Visitatore</b></ion-col>
-        <ion-col><b>Azienda</b></ion-col>
-        <ion-col><b>Orario</b></ion-col>
-        <ion-col> </ion-col>
-      </ion-row>
+  
 
-    <ion-row *ngFor="let registration of registrations" class="ion-margin-bottom">
-      <ion-col >{{registration.userFirstName }} {{registration.userLastName }}</ion-col>
-      <ion-col >{{registration.company }}</ion-col>
-      <ion-col >{{ registration.time | date:'mediumTime'}}</ion-col>
-      <ion-col > <ion-button *ngIf="registration.enabled" color="scaiblue" (click) ="checkOut(registration.userFirstName, registration.userLastName,registration.registrazioneId)"><ion-icon color ="light" name="enter-sharp" slot ="icon-only" size="small" ></ion-icon> </ion-button>  </ion-col>
-    </ion-row>
+      <ion-slides pager="true" [options] = "slidesOptions">
+        <ion-slide *ngFor ="let slide of registrations" class ="ion-padding">
+          <ion-grid  style="font-size:medium;" *ngIf="registrations?.length>0; else elseBlock" >
+            <ion-row class="ion-margin-bottom">
+              <ion-col></ion-col>
+              <ion-col><b>Visitatore</b></ion-col>
+              <ion-col><b>Azienda</b></ion-col>
+              <ion-col><b>Orario</b></ion-col>
+              <ion-col> </ion-col>
+            </ion-row>
+           <ion-row *ngFor="let registration of slide" class="ion-margin-bottom">
+            <ion-col><ion-icon name ="enter-outline" *ngIf="registration.type == 1" size ="large"></ion-icon> <ion-icon name ="exit-outline" *ngIf="registration.type == 2" size ="large"></ion-icon>  </ion-col>
+            <ion-col >{{registration.userFirstName }} {{registration.userLastName }}</ion-col>
+            <ion-col >{{registration.company }}</ion-col>
+            <ion-col >{{ registration.time | date:'mediumTime'}}</ion-col>
+            <ion-col > <ion-button *ngIf="registration.enabled" color="scaiblue" (click) ="checkOut(registration.userFirstName, registration.userLastName,registration.registrazioneId)"><ion-icon color ="light" name="enter-sharp" slot ="icon-only" size="small" ></ion-icon> </ion-button>  </ion-col>
+          </ion-row>
+         </ion-grid>
+       </ion-slide>
+       
+      </ion-slides>
 
-  </ion-grid>
+
+  
 
 
 <ng-template #elseBlock>
@@ -58,9 +66,17 @@
   </ion-row>
 </ion-grid>
 </ng-template>
-
   </ion-card-content>
 </ion-card>
+
+<ion-card *ngIf="countvisit.count" class ="ion-margin ion-padding">
+  <ion-card-subtitle>Conteggio visitatori</ion-card-subtitle>
+  <ion-card-content>
+    <p>Totale ingressi: {{countvisit.response[0] }}</p>
+    <p>Totale uscite: {{countvisit.response[1] }}</p>
+  </ion-card-content>
+</ion-card>
+
 </ion-content>
 <ion-footer>
   <ion-toolbar color="scaiblue" class ="ion-text-center">

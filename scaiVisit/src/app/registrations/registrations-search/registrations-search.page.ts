@@ -18,6 +18,7 @@ export class RegistrationsSearchPage implements OnInit {
   constructor( public registrationsService:RegistrationsService,public sharedService:SharedService, public loadingController:LoadingController, public navController:NavController) { }
 
   ngOnInit() {
+ 
   }
 
 
@@ -35,11 +36,10 @@ export class RegistrationsSearchPage implements OnInit {
       loadingEl.present();
       this.registrationsService.findRegistrazioni(filter);
       this.registrationsService.countVisitors(filter);
-      this.navController.navigateBack("registrations");
       loadingEl.dismiss();
+      this.navController.navigateBack("registrations");
          }
-      
-  ).catch(loadingEl => loadingEl.dismiss())
+      ).catch(loadingEl => loadingEl.dismiss());
    
     } else {
       this.loadingController.create()
@@ -50,8 +50,6 @@ export class RegistrationsSearchPage implements OnInit {
         this.navController.navigateBack("registrations")
         
       }).catch(loadingEl => loadingEl.dismiss())     
-
-     
     }
   }
 }

@@ -15,16 +15,34 @@ export class RegistrationsService {
 private apiUrl:string = environment.apiUrl;
 private registrations: Array<any> = [];
 registrationsChanged = new Subject<any>();
-
+responseChanged = new Subject<any>();
+countvisitChanged = new Subject<any>();
+countChanged = new Subject<any>();
+private countvisit = {count:false, response: []};
+private count = {count:false, response: []};
+private registrationsResponse = null;
 
 constructor(public http: HttpClient, public loadingController:LoadingController) { }
 
 
-  setRegistrations(registrations){
+  setRegistrations(registrations, response){
     this.registrations = registrations;
+    this.registrationsResponse = response;
+    this.responseChanged.next(this.registrationsResponse);
     this.registrationsChanged.next(this.registrations);
   }
 
+
+  setCountvisit(count,res){
+    this.countvisit = {count:count, response:res};
+     this.countvisitChanged.next(this.countvisit);
+  }
+
+  setCount(count){
+    this.count = count;
+    this.countChanged.next(this.count);
+
+}
   getRegistrations(){
     return this.registrations;
   }
@@ -35,17 +53,20 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 
   findRegistrazioniToday(sede) {
 
-    return this.http.get<any>(this.apiUrl + "registrationstoday/" + sede).subscribe(res => {this.setRegistrations(res.registrazioneDaily[0])});
+    return this.http.get<any>(this.apiUrl + "registrationstoday/" + sede).subscribe(res => {this.setRegistrations(res.registrazioneDaily,res)});
   }
 
-  findRegistrazioni(filtro) {
-
-    return this.http.post<any>(this.apiUrl + "registrationsfiltered", filtro).subscribe(res => this.setRegistrations(res.registrazioneDaily[0]) );
+  findRegistrazioni(filter) {
+    this.setCount(filter.count)
+    return this.http.post<any>(this.apiUrl + "registrationsfiltered", filter).subscribe(res =>
+       {this.setRegistrations(res.registrazioneDaily,res); 
+        this.setCount(filter.count) }
+      );
   }
 
-  findRegistrazioniPdf(filtro) {
+  findRegistrazioniPdf(filter) {
 
-    return this.http.post<any>(this.apiUrl + "registrationsfilteredpdf", filtro).subscribe(res => console.log(res));
+    return this.http.post<any>(this.apiUrl + "registrationsfilteredpdf", filter).subscribe(res => this.setRegistrations(res.registrazioneDaily,res));
   }
 
   saveRegistration(visit:Registration) {
@@ -53,7 +74,7 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
     if(visit.type == 1)
     registrations.push(visit);
     console.log(visit)
-   this.setRegistrations(registrations);
+   this.setRegistrations(registrations,this.registrationsResponse);
     return this.http.post(this.apiUrl + "registration", visit).subscribe(res => console.log(res));
   }
 
@@ -62,17 +83,17 @@ updateRegistration(visit){
   console.log(visit)
   const index = registrations.findIndex(reg => reg.registrazioneId == visit.registrazioneId)
   registrations.splice(index,1);
-  this.setRegistrations(registrations);
+  this.setRegistrations(registrations,this.registrationsResponse);
 }
 
-  countVisitors(filtro) {
+  countVisitors(filter) {
 
-    return this.http.post(this.apiUrl + "countdistinctperday", filtro).subscribe(res => console.log(res));
+    return this.http.post(this.apiUrl + "countdistinctperday", filter).subscribe(res => this.setCountvisit(filter.countvisit,res));
   }
 
-  countVisitorsEnabled(filtro) {
+  countVisitorsEnabled(filter) {
 
-    return this.http.post(this.apiUrl + "countdistinctperdayenabled", filtro).subscribe(res => console.log(res));
+    return this.http.post(this.apiUrl + "countdistinctperdayenabled", filter).subscribe(res => console.log(res));
   }
 
 }

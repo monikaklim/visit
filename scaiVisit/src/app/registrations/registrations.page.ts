@@ -17,10 +17,21 @@ export class RegistrationsPage implements OnInit {
   @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
   registrations:Array<any> =  [];
   private registrationsChangeSubscription: Subscription;
-
+  private responseChangeSubscription: Subscription;
+  private countChangeSubscription: Subscription;
+  private countvisitChangeSubscription: Subscription;
+  response:any = {};
+  count:boolean = false;
+  countvisit: any = {};
+  exits = 0;
+  enters = 0;
+  date:Date = new Date();
+  slidesOptions = {autoHeight:true, speed:300}
 
   constructor(public usersService:UsersService,public companiesService:CompaniesService, public registrationsService:RegistrationsService,public sharedService:SharedService, public loadingController: LoadingController,
-    public router: Router, public alertController:AlertController, public route:ActivatedRoute) { }
+    public router: Router, public alertController:AlertController, public route:ActivatedRoute) { 
+
+    }
   
     async loadRegistrationsToday(){
     
@@ -33,14 +44,33 @@ export class RegistrationsPage implements OnInit {
               loadingEl.present(); 
             
               this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
-                this.registrations = registrations; 
-                loadingEl.dismiss();
+                this.registrations = registrations;
+                
+              this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
+                this.response = res; 
+                this.date = new Date(res.dateFrom);
                });
-            });
+               loadingEl.dismiss();
+
+            }); 
+              
+               });
+
+
       }
       
+
   ngOnInit() {
+    
     this.loadRegistrationsToday();
+    this.countChangeSubscription = this.registrationsService.countChanged.subscribe(count  => {
+     this.count = count; 
+    });
+   
+     this.countvisitChangeSubscription = this.registrationsService.countvisitChanged.subscribe(countvisit  => {
+     this.countvisit = countvisit; 
+    });
+
   }
 
  checkOut(firstName:string,lastName:string,idRegistration){
@@ -64,6 +94,16 @@ export class RegistrationsPage implements OnInit {
   }).then(alertEl => alertEl.present());
 
 }
+
+
+
+
+
+
+
+
+
+
 
 
   scrollToBottom() {
