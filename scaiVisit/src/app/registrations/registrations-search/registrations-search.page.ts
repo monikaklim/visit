@@ -28,16 +28,17 @@ export class RegistrationsSearchPage implements OnInit {
       this.dateTo = new Date().toISOString();
     }
     if (!this.dateFrom) {
-      this.dateFrom = new Date(0).toISOString();
+      this.dateFrom = new Date().toISOString();
     }
     filter = {dateTo:this.dateTo, dateFrom:this.dateFrom, sede: this.sharedService.getSede(), count:this.count, countvisit:this.countvisit}
     if (this.countvisit) {
     this.loadingController.create().then(loadingEl =>{
       loadingEl.present();
       this.registrationsService.findRegistrazioni(filter);
-      this.registrationsService.countVisitors(filter);
-      loadingEl.dismiss();
+        
+  
       this.navController.navigateBack("registrations");
+      loadingEl.dismiss();
          }
       ).catch(loadingEl => loadingEl.dismiss());
    
@@ -46,8 +47,8 @@ export class RegistrationsSearchPage implements OnInit {
       .then(loadingEl => {
         loadingEl.present();
         this.registrationsService.findRegistrazioni(filter);
+        this.navController.navigateBack("registrations");
         loadingEl.dismiss();
-        this.navController.navigateBack("registrations")
         
       }).catch(loadingEl => loadingEl.dismiss())     
     }

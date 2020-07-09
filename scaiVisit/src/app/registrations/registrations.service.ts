@@ -5,7 +5,8 @@ import { Company } from '../companies/company.model';
 import { HttpClient } from '@angular/common/http';
 import { LoadingController } from '@ionic/angular';
 import { Registration } from './registration.model';
-
+import { take } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,26 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
     this.setCount(filter.count)
     return this.http.post<any>(this.apiUrl + "registrationsfiltered", filter).subscribe(res =>
        {this.setRegistrations(res.registrazioneDaily,res); 
-        this.setCount(filter.count) }
+        if(filter.count){
+          this.setCount(filter.count)
+        }
+
+        if(filter.countvisit){
+          let countvisitResult = [];
+          for(let i = 0; i< res.total; i++)
+          {
+           const date = res.registrazioneDaily[i][0].time;
+           filter = {...filter, dateFrom: date,dateTo: date}
+           this.countVisitors(filter).then(res => { countvisitResult[i] = [res, date];
+           console.log(res)
+          }).finally(() => this.setCountvisit(filter.countvisit,countvisitResult));
+        
+          }
+        
+          console.log(countvisitResult)
+        }
+          
+       }
       );
   }
 
@@ -88,26 +108,25 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 
 updateRegistration(visit){
   const registrations = this.registrations.slice();
-  console.log(visit)
+
   let index;
   for(let reg of registrations){
     index = reg.findIndex(reg => reg.idRegistrazione == visit.registrazioneId)
    }
 
   registrations[0].splice(index,1);
-  console.log(index)
-  console.log(registrations)
   this.setRegistrations(registrations);
 }
 
   countVisitors(filter) {
 
-    return this.http.post(this.apiUrl + "countdistinctperday", filter).subscribe(res => this.setCountvisit(filter.countvisit,res));
+   return this.http.post(this.apiUrl + "countdistinctperday", filter).pipe(take(1)).toPromise()
+    
+  
   }
 
   countVisitorsEnabled(filter) {
-
-    return this.http.post(this.apiUrl + "countdistinctperdayenabled", filter).subscribe(res => console.log(res));
+    return this.http.post(this.apiUrl + "countdistinctperdayenabled", filter).pipe(take(1)).toPromise()
   }
 
 }

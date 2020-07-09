@@ -46,7 +46,6 @@ export class RegistrationsPage implements OnInit {
             
               this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
                 this.registrations = registrations;
-                console.log(this.registrations.length)
         
                loadingEl.dismiss();
 
@@ -54,7 +53,6 @@ export class RegistrationsPage implements OnInit {
 
               this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
                 this.response = res; 
-             console.log(res)
                });   
     });
 
@@ -70,6 +68,9 @@ export class RegistrationsPage implements OnInit {
    
      this.countvisitChangeSubscription = this.registrationsService.countvisitChanged.subscribe(countvisit  => {
      this.countvisit = countvisit; 
+     let array = countvisit.response.slice();
+ 
+console.log(array)
     });
   }
 
@@ -96,7 +97,7 @@ export class RegistrationsPage implements OnInit {
 }
 
 onNext(){
-  console.log("next")
+
 
 }
 
