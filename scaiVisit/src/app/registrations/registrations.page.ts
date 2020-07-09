@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, LoadingController, AlertController } from '@ionic/angular';
+import { IonContent, LoadingController, AlertController,IonSlides } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { UsersService } from '../users/users.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,6 +15,7 @@ import { SharedService } from './../shared/shared.service';
 })
 export class RegistrationsPage implements OnInit {
   @ViewChild(IonContent, {read: IonContent,static:true}) content: IonContent;
+  @ViewChild(IonSlides, {static:true}) slides: IonSlides;
   registrations:Array<any> =  [];
   private registrationsChangeSubscription: Subscription;
   private responseChangeSubscription: Subscription;
@@ -23,8 +24,8 @@ export class RegistrationsPage implements OnInit {
   response:any = {};
   count:boolean = false;
   countvisit: any = {};
-  exits = 0;
-  enters = 0;
+  exits = [];
+  enters = [];
   date:Date = new Date();
   slidesOptions = {autoHeight:true, speed:300}
 
@@ -45,19 +46,35 @@ export class RegistrationsPage implements OnInit {
             
               this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
                 this.registrations = registrations;
-                
+                console.log(this.registrations)
+           /*    for(let reg of registrations){
+                let  countEn = 0;
+                let countEx = 0;
+                 for(let r of reg){
+                 
+                   if(r.type == 1){
+                     console.log(r.type)
+                    countEn++;
+                   }
+                   if(r.type == 2){
+                    console.log(r.type)
+                   countEx++;
+                  }
+                 }
+                 this.enters.push([countEn,countEx])
+               }
+*/
               this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
                 this.response = res; 
-                this.date = new Date(res.dateFrom);
+           console.log(this.response)
+              this.date = new Date(res.fromDate);
                });
                loadingEl.dismiss();
 
-            }); 
-              
-               });
+            });         
+    });
 
-
-      }
+ }
       
 
   ngOnInit() {
@@ -70,7 +87,6 @@ export class RegistrationsPage implements OnInit {
      this.countvisitChangeSubscription = this.registrationsService.countvisitChanged.subscribe(countvisit  => {
      this.countvisit = countvisit; 
     });
-
   }
 
  checkOut(firstName:string,lastName:string,idRegistration){
@@ -95,10 +111,17 @@ export class RegistrationsPage implements OnInit {
 
 }
 
+onNext(){
+  console.log("next")
+  this.date.setDate(this.date.getDate()+1);
+  console.log(this.date)
+}
 
-
-
-
+onPrev(){
+  this.date.setDate(this.date.getDate()-1)
+  
+  console.log(this.date)
+}
 
 
 
