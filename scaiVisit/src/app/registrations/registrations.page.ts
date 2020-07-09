@@ -46,32 +46,16 @@ export class RegistrationsPage implements OnInit {
             
               this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
                 this.registrations = registrations;
-                console.log(this.registrations)
-           /*    for(let reg of registrations){
-                let  countEn = 0;
-                let countEx = 0;
-                 for(let r of reg){
-                 
-                   if(r.type == 1){
-                     console.log(r.type)
-                    countEn++;
-                   }
-                   if(r.type == 2){
-                    console.log(r.type)
-                   countEx++;
-                  }
-                 }
-                 this.enters.push([countEn,countEx])
-               }
-*/
-              this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
-                this.response = res; 
-           console.log(this.response)
-              this.date = new Date(res.fromDate);
-               });
+                console.log(this.registrations.length)
+        
                loadingEl.dismiss();
 
-            });         
+            });      
+
+              this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
+                this.response = res; 
+             console.log(res)
+               });   
     });
 
  }
@@ -113,14 +97,11 @@ export class RegistrationsPage implements OnInit {
 
 onNext(){
   console.log("next")
-  this.date.setDate(this.date.getDate()+1);
-  console.log(this.date)
+
 }
 
 onPrev(){
-  this.date.setDate(this.date.getDate()-1)
-  
-  console.log(this.date)
+
 }
 
 

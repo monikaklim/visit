@@ -27,7 +27,7 @@
 
       <ion-slides pager="true" [options] = "slidesOptions" (ionSlideNextStart) = "onNext()" (ionSlidePrevStart) = "onPrev()">
         <ion-slide *ngFor ="let slide of registrations" class ="ion-padding" >
-          <ion-grid  style="font-size:medium;" *ngIf="registrations.length>0 ; else elseBlock" >
+          <ion-grid  style="font-size:medium;" *ngIf="registrations.length > 0" >
            <p>{{slide[0].time |date:"dd/MM/yyyy" }}</p>
             <ion-row class="ion-margin-bottom">
               <ion-col></ion-col>
@@ -53,8 +53,8 @@
   
 
 
-<ng-template #elseBlock>
-<ion-grid >
+
+<ion-grid  *ngIf="registrations.length == 0" >
   <ion-row>
     <ion-col>
     </ion-col>
@@ -67,7 +67,7 @@
     </ion-col>
   </ion-row>
 </ion-grid>
-</ng-template>
+
   </ion-card-content>
 </ion-card>
 

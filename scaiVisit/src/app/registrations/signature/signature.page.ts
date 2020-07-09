@@ -79,16 +79,15 @@ if(this.registrationType == 2){
   console.log(oldVisit)
   const updatedVisit = {...oldVisit, enabled:0}
   this.registrationsService.updateRegistration(updatedVisit);
-  visit = {...oldVisit, type:this.registrationType,time:new Date(),firma:signatureImage,enabled:0 };
+  visit = {...oldVisit, idRegistrazione:this.registrationId, type:this.registrationType,time:new Date(),firma:signatureImage,enabled:0 };
 }
 
 this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
   loadingEl.present();  
- this.registrationsService.saveRegistration(visit);
-  loadingEl.dismiss();
+ this.registrationsService.saveRegistration(visit,"Torino");
   this.signatureCanvas.clear();
   this.navController.navigateForward('/registrations');
-
+  loadingEl.dismiss();
 })
 }
 

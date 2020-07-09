@@ -25,11 +25,16 @@ private registrationsResponse = null;
 constructor(public http: HttpClient, public loadingController:LoadingController) { }
 
 
-  setRegistrations(registrations, response){
+  setRegistrations(registrations, response?){
+
     this.registrations = registrations;
-    this.registrationsResponse = response;
-    this.responseChanged.next(this.registrationsResponse);
     this.registrationsChanged.next(this.registrations);
+    console.log(this.registrations)
+    if(response){
+      this.registrationsResponse = response;
+      this.responseChanged.next(this.registrationsResponse);
+    }
+
   }
 
 
@@ -48,7 +53,12 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
   }
   getRegistrationById(id:string){
     const registrations = this.registrations.slice();
-    return registrations.find(reg => reg.registrazioneId == id);
+    let registration = null;
+    for(let reg of registrations){
+     registration = reg.find(registr => registr.registrazioneId == id);
+    }
+
+    return registration;
   }
 
   findRegistrazioniToday(sede) {
@@ -69,21 +79,25 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
     return this.http.post<any>(this.apiUrl + "registrationsfilteredpdf", filter).subscribe(res => this.setRegistrations(res.registrazioneDaily,res));
   }
 
-  saveRegistration(visit:Registration) {
+  saveRegistration(visit:Registration,sede) {
     const registrations = this.registrations.slice();
-    if(visit.type == 1)
-    registrations.push(visit);
-    console.log(visit)
-   this.setRegistrations(registrations,this.registrationsResponse);
-    return this.http.post(this.apiUrl + "registration", visit).subscribe(res => console.log(res));
+
+   this.setRegistrations(registrations);
+    return this.http.post(this.apiUrl + "registration", visit).subscribe(res => this.findRegistrazioniToday(sede));
   }
 
 updateRegistration(visit){
   const registrations = this.registrations.slice();
   console.log(visit)
-  const index = registrations.findIndex(reg => reg.registrazioneId == visit.registrazioneId)
-  registrations.splice(index,1);
-  this.setRegistrations(registrations,this.registrationsResponse);
+  let index;
+  for(let reg of registrations){
+    index = reg.findIndex(reg => reg.idRegistrazione == visit.registrazioneId)
+   }
+
+  registrations[0].splice(index,1);
+  console.log(index)
+  console.log(registrations)
+  this.setRegistrations(registrations);
 }
 
   countVisitors(filter) {
