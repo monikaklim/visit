@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadingController, ActionSheetController, AlertController } from '@ionic/angular';
+import { LoadingController, ActionSheetController, AlertController,Platform } from '@ionic/angular';
 import { Company } from './company.model';
 import { Subscription } from 'rxjs';
 import { CompaniesService } from './companies.service';
@@ -14,7 +14,7 @@ export class CompaniesPage implements OnInit {
 
   companies:Company[] = [];
   private companiesChangeSubscription: Subscription;
- 
+
   
   
   constructor(public companiesService:CompaniesService, public loadingController: LoadingController,public actionSheetController:ActionSheetController,

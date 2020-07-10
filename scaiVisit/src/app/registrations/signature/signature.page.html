@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color ="scaiblue">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="users" color ="light" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title color = "light">Firma</ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content class ="ion-padding ion-margin ">
+
+    
+
+
+
+<ion-grid>
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col  class="ion-align-self-center">
+      <signature-pad
+
+      [options]="signaturePadOptions"
+      id="signatureCanvas"
+      #signatureCanvas
+    ></signature-pad>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
+        <ion-button  color="scaiblue"fill="clear"  expand="block" (click)="clear()" >Annulla</ion-button>
+        <br/>
+        <ion-button  color="scaiblue" shape = "round"  expand="block"  (click)="sign()" >Firma</ion-button>
+
+       
+      </ion-col>
+    </ion-row>
+</ion-grid>
+</ion-content>

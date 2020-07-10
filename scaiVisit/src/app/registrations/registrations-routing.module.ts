@@ -7,7 +7,16 @@ const routes: Routes = [
   {
     path: '',
     component: RegistrationsPage
+  },
+  {
+    path: 'signature',
+    loadChildren: () => import('./signature/signature.module').then( m => m.SignaturePageModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./registrations-search/registrations-search.module').then( m => m.RegistrationsSearchPageModule)
   }
+
 ];
 
 @NgModule({

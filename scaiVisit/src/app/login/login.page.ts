@@ -3,8 +3,6 @@ import * as localforage from "localforage";
 import { NavController, LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from './auth.service';
 import { SharedService } from './../shared/shared.service';
-import constants from "../../config/constants";
-import { HomePage } from '../home/home.page';
 import { NgForm } from '@angular/forms';
 import { UsersService } from './../users/users.service';
 
@@ -58,9 +56,9 @@ export class LoginPage {
                   loadingEl.dismiss();
                 }else{
                   let opzioni = {
-                    domain : constants.sede
+                    domain : this.sharedService.getSede()
                   }
-                  this.sharedService.setSede(constants.sede);
+                  this.sharedService.setSede(this.sharedService.getSede());
                   localforage.setItem("options", opzioni);
                   this.navCtrl.navigateRoot('home');
                   loadingEl.dismiss();
