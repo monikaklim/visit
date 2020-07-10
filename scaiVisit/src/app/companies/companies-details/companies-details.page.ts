@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController } from '@ionic/angular';
 import { Company } from '../company.model';
 import { CompaniesService } from '../companies.service';
+import { RegistrationsService } from './../../registrations/registrations.service';
 
 @Component({
   selector: 'app-companies-details',
@@ -12,7 +13,7 @@ import { CompaniesService } from '../companies.service';
 export class CompaniesDetailsPage implements OnInit {
 
  
-  constructor(public route:ActivatedRoute, public navController:NavController, public companiesService:CompaniesService,  public loadingController:LoadingController) { }
+  constructor(public route:ActivatedRoute, public navController:NavController, public companiesService:CompaniesService,  public loadingController:LoadingController, private registrationsService:RegistrationsService) { }
 
  companyId:string;
  company:Company;
@@ -31,7 +32,7 @@ export class CompaniesDetailsPage implements OnInit {
         this.navController.navigateBack('companies');
         }
        else{
-        this.companyId = paramMap.get('userId');
+        this.companyId = paramMap.get('companyId');
         this.isLoading = true;
         this.company = this.companiesService.getCompany(paramMap.get('companyId'));
 
@@ -40,7 +41,16 @@ export class CompaniesDetailsPage implements OnInit {
         }
        }
       });
+    }
 
+    onShowRegistrations(){
+      const filter = {companyId:+this.companyId, sede:"Torino"}
+      this.loadingController.create({message:"Caricamento..."}).then(loadingEl => {
+        loadingEl.present();
+        this.registrationsService.findRegistrazioni(filter);
+        this.navController.navigateForward("/registrations");
+        loadingEl.dismiss();
+      });
     }
 
 }

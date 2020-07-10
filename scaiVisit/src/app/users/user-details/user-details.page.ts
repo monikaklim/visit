@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController } from '@ionic/angular';
 import { UsersService } from '../users.service';
 import { User } from '../user.model';
+import { RegistrationsService } from './../../registrations/registrations.service';
 
 @Component({
   selector: 'app-user-details',
@@ -11,7 +12,7 @@ import { User } from '../user.model';
 })
 export class UserDetailsPage implements OnInit {
 
-  constructor(public route:ActivatedRoute, public navController:NavController, public usersService:UsersService,  public loadingController:LoadingController) { }
+  constructor(public route:ActivatedRoute, public navController:NavController, public usersService:UsersService,  public loadingController:LoadingController, public registrationsService:RegistrationsService) { }
 
   userId:string;
   user:User;
@@ -40,6 +41,17 @@ export class UserDetailsPage implements OnInit {
        }
       });
 
+    }
+
+
+    onShowRegistrations(){
+      const filter = {userId:this.userId}
+      this.loadingController.create({message:"Caricamento..."}).then(loadingEl => {
+        loadingEl.present();
+        this.registrationsService.findRegistrazioni(filter);
+        this.navController.navigateForward("/registrations");
+        loadingEl.dismiss();
+      });
     }
 
 }

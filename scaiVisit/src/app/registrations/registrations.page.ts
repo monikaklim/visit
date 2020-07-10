@@ -24,10 +24,9 @@ export class RegistrationsPage implements OnInit {
   response:any = {};
   count:any = {};
   countvisit: any = {};
-  exits = [];
-  enters = [];
   date:Date = new Date();
-  slidesOptions = {autoHeight:true, speed:300}
+  slidesOptions = {autoHeight:true, speed:300};
+  needsToLoad = true;
 
   constructor(public usersService:UsersService,public companiesService:CompaniesService, public registrationsService:RegistrationsService,public sharedService:SharedService, public loadingController: LoadingController,
     public router: Router, public alertController:AlertController, public route:ActivatedRoute) { 
@@ -60,18 +59,17 @@ export class RegistrationsPage implements OnInit {
       
 
   ngOnInit() {
-    
-    this.loadRegistrationsToday();
+    if(this.needsToLoad){
+       this.loadRegistrationsToday();
+       this.needsToLoad = false;
+    }
+   
     this.countChangeSubscription = this.registrationsService.countChanged.subscribe(count  => {
      this.count = count; 
-     console.log(count)
     });
    
      this.countvisitChangeSubscription = this.registrationsService.countvisitChanged.subscribe(countvisit  => {
      this.countvisit = countvisit; 
-     let array = countvisit.response.slice();
- 
-      console.log(array)
     });
   }
 
@@ -96,21 +94,6 @@ export class RegistrationsPage implements OnInit {
   }).then(alertEl => alertEl.present());
 
 }
-
-onNext(){
-
-
-}
-
-onPrev(){
-
-}
-
-
-
-
-
-
 
   scrollToBottom() {
     this.content.scrollToBottom(500);

@@ -71,13 +71,10 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
    
     return this.http.post<any>(this.apiUrl + "registrationsfiltered", filter).subscribe(res =>
        {this.setRegistrations(res.registrazioneDaily,res); 
-        console.log(filter.count)
         if(filter.count){
-          console.log(filter.count)
           let countResult = [];
           let ent = 0;
           let ex = 0;
-      console.log(res.registrazioneDaily)
       let i = 0;
       for(let slide of res.registrazioneDaily){
         console.log(slide)
@@ -92,14 +89,10 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
           ex++;
         }
         countResult[i] = [ent,ex,reg.time];
-
-         console.log(reg)
        }
        this.setCount(filter.count, countResult);
        i++;
       }
-          
-        
           this.setCountvisit(filter.countvisit,[]);
         }
       
@@ -110,14 +103,11 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
            const date = res.registrazioneDaily[i][0].time;
            filter = {...filter, dateFrom: date,dateTo: date}
            this.countVisitors(filter).then(res => { countvisitResult[i] = [res, date];
-           console.log(res)
           }).finally(() => this.setCountvisit(filter.countvisit,countvisitResult));
           this.setCount(filter.count,[]);
           }
-        }
-          
-       }
-      );
+        }    
+       } );
   }
 
   findRegistrazioniPdf(filter) {

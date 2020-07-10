@@ -25,7 +25,7 @@
   <ion-card-content>
   
 
-      <ion-slides pager="true" [options] = "slidesOptions" (ionSlideNextStart) = "onNext()" (ionSlidePrevStart) = "onPrev()">
+      <ion-slides pager="true" [options] = "slidesOptions" >
         <ion-slide *ngFor ="let slide of registrations; let i = index" class ="ion-padding" >
           <ion-grid  style="font-size:medium;" *ngIf="registrations.length > 0" >
            <p>{{slide[0].time |date:"dd/MM/yyyy" }}</p>
