@@ -22,7 +22,7 @@ export class RegistrationsPage implements OnInit {
   private countChangeSubscription: Subscription;
   private countvisitChangeSubscription: Subscription;
   response:any = {};
-  count:boolean = false;
+  count:any = {};
   countvisit: any = {};
   exits = [];
   enters = [];
@@ -64,13 +64,14 @@ export class RegistrationsPage implements OnInit {
     this.loadRegistrationsToday();
     this.countChangeSubscription = this.registrationsService.countChanged.subscribe(count  => {
      this.count = count; 
+     console.log(count)
     });
    
      this.countvisitChangeSubscription = this.registrationsService.countvisitChanged.subscribe(countvisit  => {
      this.countvisit = countvisit; 
      let array = countvisit.response.slice();
  
-console.log(array)
+      console.log(array)
     });
   }
 

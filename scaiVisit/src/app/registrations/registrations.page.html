@@ -55,11 +55,22 @@
         <p>Totale uscite: {{countvisit?.response[i][0][1] }}</p>
       </ion-card-content>
     </ion-card>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col>
+    <ion-card *ngIf="count.count && count.response[i] " class ="ion-margin ion-padding">
+      <ion-card-subtitle>Conteggio visite</ion-card-subtitle>
+      <ion-card-content>
+        <p>Totale ingressi: {{count?.response[i][0] }}</p>
+        <p>Totale uscite: {{count?.response[i][1] }}</p>
+      </ion-card-content>
+    </ion-card>
     
     
   </ion-col>
 </ion-row>
-
 
          </ion-grid>
        </ion-slide>

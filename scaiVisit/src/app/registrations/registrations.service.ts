@@ -44,8 +44,8 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
      this.countvisitChanged.next(this.countvisit);
   }
 
-  setCount(count){
-    this.count = count;
+  setCount(count,res){
+    this.count = {count:count, response:res};
     this.countChanged.next(this.count);
 
 }
@@ -68,13 +68,41 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
   }
 
   findRegistrazioni(filter) {
-    this.setCount(filter.count)
+   
     return this.http.post<any>(this.apiUrl + "registrationsfiltered", filter).subscribe(res =>
        {this.setRegistrations(res.registrazioneDaily,res); 
+        console.log(filter.count)
         if(filter.count){
-          this.setCount(filter.count)
+          console.log(filter.count)
+          let countResult = [];
+          let ent = 0;
+          let ex = 0;
+      console.log(res.registrazioneDaily)
+      let i = 0;
+      for(let slide of res.registrazioneDaily){
+        console.log(slide)
+        ent = 0;
+        ex = 0;
+       for( let reg of slide){
+      
+        if(reg.type == 1){
+          ent++;
         }
+        if(reg.type == 2){
+          ex++;
+        }
+        countResult[i] = [ent,ex,reg.time];
 
+         console.log(reg)
+       }
+       this.setCount(filter.count, countResult);
+       i++;
+      }
+          
+        
+          this.setCountvisit(filter.countvisit,[]);
+        }
+      
         if(filter.countvisit){
           let countvisitResult = [];
           for(let i = 0; i< res.total; i++)
@@ -84,10 +112,8 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
            this.countVisitors(filter).then(res => { countvisitResult[i] = [res, date];
            console.log(res)
           }).finally(() => this.setCountvisit(filter.countvisit,countvisitResult));
-        
+          this.setCount(filter.count,[]);
           }
-        
-          console.log(countvisitResult)
         }
           
        }
