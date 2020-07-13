@@ -11,10 +11,29 @@
 </ion-header>
 
 <ion-content [scrollEvents]="true">
-<ion-chip color="dark" (click) = "loadRegistrationsToday()" class="ion-padding ion-margin float-right" > 
-  <ion-icon name="today-outline" size="large"></ion-icon>
-  <ion-label>Oggi</ion-label>
-</ion-chip>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-chip color="dark" (click) = "loadRegistrationsToday()" class="ion-padding ion-margin float-right" > 
+          <ion-icon name="today-outline" size="large"></ion-icon>
+          <ion-label>Oggi</ion-label>
+        </ion-chip>
+
+      </ion-col>
+      <ion-col></ion-col>
+
+      <ion-col>
+        <ion-chip color="dark" (click) = "onCreatePdf()" class="ion-padding ion-margin float-right" > 
+          <ion-icon name="document-text-outline" size = "large"></ion-icon>
+          <ion-label>Scarica Pdf</ion-label>
+        </ion-chip>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
 
 <ion-card class ="ion-padding">
   <ion-card-header class = "ion-text-center">

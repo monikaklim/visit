@@ -7,6 +7,7 @@ import { Registration } from './registration.model';
 import { CompaniesService } from './../companies/companies.service';
 import { RegistrationsService } from './registrations.service';
 import { SharedService } from './../shared/shared.service';
+import { PdfService } from './pdf/pdf.service';
 
 @Component({
   selector: 'app-registrations',
@@ -29,7 +30,7 @@ export class RegistrationsPage implements OnInit {
   needsToLoad = true;
 
   constructor(public usersService:UsersService,public companiesService:CompaniesService, public registrationsService:RegistrationsService,public sharedService:SharedService, public loadingController: LoadingController,
-    public router: Router, public alertController:AlertController, public route:ActivatedRoute) { 
+    public router: Router, public alertController:AlertController, public route:ActivatedRoute, public pdfService:PdfService) { 
 
     }
   
@@ -103,6 +104,115 @@ export class RegistrationsPage implements OnInit {
     this.content.scrollToTop(500);
   }
   
+  //pdf
+
+  /*
+  pdf(time) {
+    let loader = this.loadingController.create({
+      content: "Loading..."
+    });
+    let filter = {
+      sede: this.supportFilter.sede,
+      dateFrom: time,
+      dateTo: time
+    };
+    loader.present();
+    this.httpProvider.findRegistrazioniPdf(filter).subscribe(
+      res => {
+        let response = res.body as any;
+        this.creaPdf(response.registrazioneDaily[0]);
+      },
+      err => {
+        console.log(err);
+      },
+      () => {
+        loader.dismissAll();
+        console.log("complete");
+      }
+    );
+  }
+  download() {
+    if (this.platform.is("cordova")) {
+      let name = "firme" + new Date().getTime() + ".pdf";
+      this.pdfDocGenerator.getBuffer(buffer => {
+        var blob = new Blob([buffer], { type: "application/pdf" });
+        // Save the PDF to the data Directory of our App
+        this.file
+          .writeFile(this.file.externalDataDirectory, name, blob, {
+            replace: true
+          })
+          .then(fileEntry => {
+            // Open the PDf with the correct OS tools
+            this.fileOpener.open(
+              this.file.externalDataDirectory + name,
+              "application/pdf"
+            );
+          });
+      });
+    } else {
+      // On a browser simply use download!
+      this.pdfDocGenerator.download();
+    }
+    // this.navCtrl.push(ListaUtentiPage);
+  }
+  creaPdf(response) {
+    // this.creaPdfSingolo(response);
+    this.creaPdfCompanies(response);
+  }
+  creaPdfSingolo(response) {
+    let reduced = this.reduceExternalRef(response);
+    let pdf = (<any>Object).values(reduced);
+    let dd = this.pdfProvider.createPdfFirme(pdf);
+    pdfMake.fonts = {
+      Garamond: {
+        normal: "Garamond.ttf",
+        bold: "Garamond-Bold.ttf",
+        italics: "Garamond-Medium-Italic.ttf",
+        bolditalics: "Garamond.ttf"
+      }
+    };
+    this.pdfDocGenerator = pdfMake.createPdf(dd);
+    this.download();
+  }
+  creaPdfCompanies(response) {
+
+    let pdf = response.map(item => {
+      return {
+        company: item.company,
+        reduced: (<any>Object).values(
+          item.array.reduce((acc, curr) => {
+            if (!acc[curr.externalRef]) acc[curr.externalRef] = [];
+            acc[curr.externalRef].push({
+              firstname: curr.userFirstName,
+              lastaname: curr.userLastName,
+              company: curr.companyFrom,
+              date: moment(curr.time).format("DD-MM-YYYY"),
+              time: moment(curr.time).format("HH:mm"),
+              type: curr.type,
+              firma: curr.firma
+            });
+            return acc;
+          }, {})
+        )
+      };
+    });
+    let dd = this.pdfProvider.createPdfFirmeAziende(pdf);
+    pdfMake.fonts = {
+      Garamond: {
+        normal: "Garamond.ttf",
+        bold: "Garamond-Bold.ttf",
+        italics: "Garamond-Medium-Italic.ttf",
+        bolditalics: "Garamond.ttf"
+      }
+    };
+    this.pdfDocGenerator = pdfMake.createPdf(dd);
+    this.download();
+  }
+*/
 
 
+
+onCreatePdf(){
+  this.pdfService.makePdf(this.registrations);
+}
 }
