@@ -2,24 +2,24 @@ import { Injectable } from '@angular/core';
 import * as pdfmake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { RegistrationsService } from './../registrations.service';
+import { UsersService } from './../../users/users.service';
+import { User } from './../../users/user.model';
+import { Subscription } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
-
-  constructor(public registrationsService:RegistrationsService) {
-
+  private userChangeSubscription: Subscription;
+  user = null;  
+  constructor(public registrationsService:RegistrationsService, public usersService:UsersService) {
+  this.userChangeSubscription = this.usersService.userChanged.subscribe(user => this.user = user)
   }
 
   makePdfFirme(registrations) {
     pdfmake.vfs = pdfFonts.pdfMake.vfs;
     let body =  [];
-  
-
-
-
     body.push([
       "Data",
       "Visitatore",
@@ -29,16 +29,18 @@ export class PdfService {
       "Orario di uscita",
       "Firma"
     ]);
-   console.log(registrations)
-let rows = null;
+ 
+    let rows = null;
    for(let slide of registrations){
-   rows = this.createReducedRegistrations(slide);
-  }
-  console.log(rows)
+    rows = this.createReducedRegistrations(slide);
+   console.log(this.createReducedRegistrations(slide))
+   }
+console.log(rows)
   for(let row of rows){
-    body.push(row);
+   
+      body.push(row);
   }
-
+console.log(body)
    let docDefinition = {
     info: {
       title: 'firme',
@@ -73,37 +75,48 @@ let rows = null;
     pdfmake.createPdf(docDefinition).open();
   }
 
-createReducedRegistrations(registrations){
-let reducedRegistrations = [];
+ createReducedRegistrations(registrations){
+  let reducedRegistrations = [];
+  let us = null;
+
   for(let reg of registrations){
-      reducedRegistrations.push(this.reduceRegistration(reg));
-  }
-  return reducedRegistrations;
-}
+ 
+    if(this.usersService.getUsers().length > 0){
+      us = this.usersService.getUserById(reg.userId);
+      if(this.reduceRegistration(reg,us).length > 0)
+      reducedRegistrations.push(this.reduceRegistration(reg,us));
+    }else{
+      console.error("no users")
+    }
+   } 
+ return reducedRegistrations; 
+ }
+  
 
 
-reduceRegistration(registration){
+
+reduceRegistration(registration,us){
   let newRegistration = [];
-  const regDate = new Date(registration.time);
-  if(registration.externalRef && registration.type == 2){
-    const registrationEnter = this.registrationsService.getRegistrationById(registration.externalRef);
-    const regEnterDate = new Date(registrationEnter.time);
-     newRegistration = [regEnterDate.toLocaleDateString(), registrationEnter.userFirstName + " " + registrationEnter.userLastName, registrationEnter.company, regEnterDate.toLocaleTimeString(), {image: registrationEnter.firma, width: 140,}, regDate.toLocaleTimeString(), {image:registration.firma,width: 140,} ];
-    return newRegistration;
+
+const regDate = new Date(registration.time);
+if(registration.externalRef && registration.type == 2){
+  const registrationEnter = this.registrationsService.getRegistrationById(registration.externalRef);
+  const regEnterDate = new Date(registrationEnter.time);
+ newRegistration = [regEnterDate.toLocaleDateString(), registrationEnter.userFirstName + " " + registrationEnter.userLastName, us.company, regEnterDate.toLocaleTimeString(), {image: registrationEnter.firma, width: 140,}, regDate.toLocaleTimeString(), {image:registration.firma,width: 140,} ];
+}
+if(registration.type == 1)
+{
+  const registrationExit = this.registrationsService.getRegistrationByExternalRef(registration.registrazioneId);
+ 
+  if(!registrationExit){
+    newRegistration = [regDate.toLocaleDateString(), registration.userFirstName + " " + registration.userLastName,us.company, regDate.toLocaleTimeString(),{image: registration.firma, width: 140,}, "", "" ];
   }
-  if(registration.type == 1)
-  {
-    const registrationExit = this.registrationsService.getRegistrationByExternalRef(registration.registrazioneId);
-   
-    if(registrationExit){
-      const regExitDate = new Date(registrationExit.time);
-      newRegistration = [regDate.toLocaleDateString(), registration.userFirstName + " " + registration.userLastName, registration.company, regDate.toLocaleTimeString(),{image: registration.firma, width: 140,}, regExitDate.toLocaleTimeString(), {image: registrationExit.firma, width: 140,} ];
-    }
-    else{
-       newRegistration = [regDate.toLocaleDateString(), registration.userFirstName + " " + registration.userLastName, registration.company, regDate.toLocaleTimeString(),{image: registration.firma, width: 140,}, "", "" ];
-    }
-  }
-  return newRegistration;
+}
+
+return newRegistration;
+}
+
+
 }
 
 
@@ -111,4 +124,3 @@ reduceRegistration(registration){
 
 
 
-}

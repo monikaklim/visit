@@ -7,9 +7,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CompaniesService } from '../companies/companies.service';
 import { Company } from './../companies/company.model';
 
-
-
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.page.html',
@@ -50,6 +47,7 @@ let filteredUsers = this.usersService.getFilteredUsers();
 
  ngOnInit() {
 
+  if(this.users.length == 0)
  this.loadUsers();
 
  this.companiesService.fetchCompanies();

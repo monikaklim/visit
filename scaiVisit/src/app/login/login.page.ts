@@ -112,7 +112,16 @@ export class LoginPage {
         }
       },
       () => {
-        console.log('Login successful');}
+        this.loadingController.create({message:"Caricamento..."}).then(loadingEl =>{
+          loadingEl.present();
+          this.usersService.fetchUsers();
+          console.log("Login successful")
+          loadingEl.dismiss();
+          this.navCtrl.navigateForward("/users")
+        })
+     
+  
+      }
     );
    
   });
