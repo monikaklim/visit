@@ -71,16 +71,14 @@ if(this.registrationType == 1)
  visit = new Registration("1",this.userId,this.companyId,this.registrationType,new Date(),signatureImage,1 );
 if(this.registrationType == 2){
   const oldVisit =  this.registrationsService.getRegistrationById(this.registrationId);
-  console.log(oldVisit)
   const updatedVisit = {...oldVisit, enabled:0, externalRef: oldVisit.registrationId }
   this.registrationsService.saveRegistration(updatedVisit, "Torino");
   visit = { registrationId:(+this.registrationId)+1, userId: oldVisit.userId, companyId:oldVisit.companyId, type:2,time:new Date(),firma:signatureImage,enabled:0, externalRef: this.registrationId };
-  console.log(visit)
 }
 
 this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
   loadingEl.present();  
- this.registrationsService.saveRegistration(visit,"Torino");
+  this.registrationsService.saveRegistration(visit,"Torino");
   this.signatureCanvas.clear();
   this.navController.navigateForward('/registrations');
   loadingEl.dismiss();

@@ -213,6 +213,6 @@ export class RegistrationsPage implements OnInit {
 
 
 onCreatePdf(){
-  this.pdfService.makePdf(this.registrations);
+  this.pdfService.makePdfFirme(this.registrations);
 }
 }

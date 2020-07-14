@@ -52,25 +52,40 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
   getRegistrations(){
     return this.registrations;
   }
+
   getRegistrationById(id:string){
     const registrations = this.registrations.slice();
     let registration = null;
     for(let reg of registrations){
      registration = reg.find(registr => registr.registrazioneId == id);
     }
-
     return registration;
   }
 
+  getRegistrationByExternalRef(id:string){
+    const registrations = this.registrations.slice();
+    let registration = null;
+    for(let reg of registrations){
+     registration = reg.find(registr => registr.externalRef == id);
+    }
+    return registration;
+  }
+
+
   findRegistrazioniToday(sede) {
 
-    return this.http.get<any>(this.apiUrl + "registrationstoday/" + sede).subscribe(res => {this.setRegistrations(res.registrazioneDaily,res)});
+    return this.http.get<any>(this.apiUrl + "registrationstoday/" + sede).subscribe(res => 
+      {
+        this.setRegistrations(res.registrazioneDaily,res);
+    
+    });
   }
 
   findRegistrazioni(filter) {
    
     return this.http.post<any>(this.apiUrl + "registrationsfiltered", filter).subscribe(res =>
        {this.setRegistrations(res.registrazioneDaily,res); 
+        console.log(res)
         if(filter.count){
           let countResult = [];
           let ent = 0;
