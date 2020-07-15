@@ -34,14 +34,36 @@ export class RegistrationsPage implements OnInit {
 
     }
   
+async loadRegistrations(){
+  await this.loadingController.create({
+    message: "Caricamento...", spinner:"bubbles", backdropDismiss:true
+   }).then(loadingEl => {
+    this.registrations = this.registrationsService.getRegistrations();  
+      loadingEl.present(); 
+    
+      this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
+        this.registrations = registrations;
+
+       loadingEl.dismiss();
+
+    });      
+
+      this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
+        this.response = res; 
+       });   
+});
+}
+
+
     async loadRegistrationsToday(){
     
-          if(this.registrations.length == 0)
-          this.registrationsService.findRegistrazioniToday("Torino");
+
+         // this.registrationsService.findRegistrazioniToday("Torino");
            await this.loadingController.create({
             message: "Caricamento...", spinner:"bubbles", backdropDismiss:true
            }).then(loadingEl => {
-            this.registrations = this.registrationsService.getRegistrations();  
+            this.registrationsService.findRegistrazioniToday("Torino"); 
+            
               loadingEl.present(); 
             
               this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
@@ -60,11 +82,14 @@ export class RegistrationsPage implements OnInit {
       
 
   ngOnInit() {
-    if(this.needsToLoad){
-       this.loadRegistrationsToday();
+    if(this.needsToLoad ){
+       this.loadRegistrations();
        this.needsToLoad = false;
     }
-   
+    this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
+      this.registrations = registrations;
+    });
+    
     this.countChangeSubscription = this.registrationsService.countChanged.subscribe(count  => {
      this.count = count; 
     });

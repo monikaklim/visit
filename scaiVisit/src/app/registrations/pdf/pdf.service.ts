@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs';
   providedIn: 'root'
 })
 export class PdfService {
-  private userChangeSubscription: Subscription;
-  user = null;  
+
+
   constructor(public registrationsService:RegistrationsService, public usersService:UsersService) {
-  this.userChangeSubscription = this.usersService.userChanged.subscribe(user => this.user = user)
+
   }
 
   makePdfFirme(registrations) {
@@ -33,14 +33,12 @@ export class PdfService {
     let rows = null;
    for(let slide of registrations){
     rows = this.createReducedRegistrations(slide);
-   console.log(this.createReducedRegistrations(slide))
    }
-console.log(rows)
+
   for(let row of rows){
-   
       body.push(row);
   }
-console.log(body)
+
    let docDefinition = {
     info: {
       title: 'firme',
