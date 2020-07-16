@@ -33,13 +33,14 @@ let filteredUsers = this.usersService.getFilteredUsers();
       this.usersService.fetchUsers();
      await this.loadingController.create({
       message: "Caricamento visitatori...", spinner:"bubbles", backdropDismiss:true
-     }).then(loadingEl => {this.users =  this.usersService.getUsers();
+     }).then(loadingEl => {
+       this.users =  this.usersService.getUsers();
         loadingEl.present(); 
         this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
         this.users = users;  
          loadingEl.dismiss()
             });
-      });
+      }).catch(loadingEl => loadingEl.dismiss());
   }
 }
 

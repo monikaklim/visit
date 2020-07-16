@@ -16,6 +16,8 @@ constructor(public http:HttpClient) { }
 login(user:string, pw:string) {
   let headers = new HttpHeaders().set("Content-Type", "application/json");
   let req = { username: user, password: pw };
+
+
   return this.http.post(this.apiUrl + "signin", req, {
     observe: "response",
     headers: headers
@@ -33,6 +35,8 @@ return this.token;
 logout() {
   localStorage.removeItem("token");
   localforage.removeItem("token");
+  localStorage.removeItem("expirationDate");
+  localforage.removeItem("expirationDate");
   this.setToken("");
 }
 

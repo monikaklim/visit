@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpParams, HttpHeaders, HttpInterceptor } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { NavController } from '@ionic/angular';
+import * as localforage from "localforage";
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
 
-  constructor(public authService:AuthService) { }
+  constructor(public authService:AuthService, public navCtrl:NavController) { }
 
 
 
@@ -15,7 +19,23 @@ export class AuthInterceptorService implements HttpInterceptor {
             "Authorization",
             "Bearer " + localStorage.getItem("token") );
   const  modifiedReq = req.clone({headers:headers});
-  return next.handle(modifiedReq);    
+  return next.handle(modifiedReq).pipe(
+    catchError(
+      (err, caught) => {
+        if (err.status === 403){
+          this.handleAuthError();
+          return of(err);
+        }
+        throw err;
+      }
+    )
+  );  
   }
  
+  handleAuthError(){
+    localStorage.removeItem("token");
+    localforage.removeItem("token");
+    this.navCtrl.navigateRoot("login");
+  }
+
 }

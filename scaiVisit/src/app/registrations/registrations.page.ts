@@ -51,16 +51,14 @@ async loadRegistrations(){
       this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
         this.response = res; 
        });   
-});
+}).catch(loadingEl => loadingEl.dismiss());
 }
 
 
     async loadRegistrationsToday(){
     
-
-         // this.registrationsService.findRegistrazioniToday("Torino");
            await this.loadingController.create({
-            message: "Caricamento...", spinner:"bubbles", backdropDismiss:true
+            message: "Caricamento registrazioni...", spinner:"bubbles", backdropDismiss:true
            }).then(loadingEl => {
             this.registrationsService.findRegistrazioniToday("Torino"); 
             
