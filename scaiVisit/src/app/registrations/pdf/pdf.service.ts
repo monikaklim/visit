@@ -3,9 +3,11 @@ import * as pdfmake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { RegistrationsService } from './../registrations.service';
 import { UsersService } from './../../users/users.service';
-import { User } from './../../users/user.model';
-import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
+import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
+const { Filesystem } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class PdfService {
 
 
-  constructor(public registrationsService:RegistrationsService, public usersService:UsersService) {
+  constructor(public registrationsService:RegistrationsService, public usersService:UsersService,   private platform: Platform,private fileOpener: FileOpener ){
 
   }
 
@@ -70,8 +72,54 @@ export class PdfService {
       }
      
     }
-    pdfmake.createPdf(docDefinition).open();
+   const pdf = pdfmake.createPdf(docDefinition);
+
+
+
+    if (!this.platform.is('desktop')) {
+   
+       pdf.getBase64((data) => {
+          console.log(data);
+          const fileName = 'firme'+new Date().toLocaleDateString()+'-'+new Date().toLocaleTimeString()+'.pdf';
+          try {
+            Filesystem.writeFile({
+              path: fileName,
+              data:data,
+              directory: FilesystemDirectory.Documents,
+              recursive:true
+     
+            }).then((writeFileResult) => {
+              console.log(writeFileResult)
+              Filesystem.getUri({
+                  directory: FilesystemDirectory.Documents,
+                  path: fileName
+              }).then((getUriResult) => {
+    
+                  const path = getUriResult.uri;
+                  console.log(path)
+                  this.fileOpener.open(path, 'application/pdf')
+                  .then(() => console.log('File is opened'))
+                  .catch(error => console.log('Error openening file', error));
+              }, (error) => {
+                  console.log(error);
+              });
+            });
+          } catch (error) {
+            console.error('Unable to write file', error);
+          }
+        });
+
+    } else {
+  
+    pdfmake.createPdf(docDefinition).open(); 
+  
   }
+
+
+  }
+
+
+
 
  createReducedRegistrations(registrations){
   let reducedRegistrations = [];

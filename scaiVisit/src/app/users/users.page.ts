@@ -49,20 +49,19 @@ let filteredUsers = this.usersService.getFilteredUsers();
  ngOnInit() {
 
   if(this.users.length == 0)
- this.loadUsers();
+  this.loadUsers();
 
- this.companiesService.fetchCompanies();
- this.companies = this.companiesService.getCompanies();
- this.companiesChangedSubscription =  this.companiesService.companiesChanged.subscribe(companies => {
-   this.companies = companies
- })
+  this.companiesService.fetchCompanies();
+  this.companies = this.companiesService.getCompanies();
+  this.companiesChangedSubscription =  this.companiesService.companiesChanged.subscribe(companies => {
+    this.companies = companies
+  })
 
- this.filteredUsersChangeSubscription = this.usersService.filteredUsersChanged.subscribe(users  => {
-  this.users = users;
-  if(users.length > 0 && users)
-  this.isFiltered = true;
-     
- });
+  this.filteredUsersChangeSubscription = this.usersService.filteredUsersChanged.subscribe(users  => {
+    this.users = users;
+    if(users.length > 0 && users)
+    this.isFiltered = true;  
+  });
 
   }
 
