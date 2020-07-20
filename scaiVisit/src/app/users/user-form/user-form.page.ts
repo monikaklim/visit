@@ -58,9 +58,9 @@ export class UserFormPage implements OnInit {
 
         this.userId = paramMap.get('userId');
         this.isLoading = true;
-        this.user = this.usersService.getUser(paramMap.get('userId'));
+        this.user = this.usersService.getUserById(paramMap.get('userId'));
        
-        console.log( this.usersService.getUser(paramMap.get('userId')))
+        console.log( this.usersService.getUserById(paramMap.get('userId')))
        
        this.form = this.formBuilder.group({
                 firstname: new FormControl(this.user.firstname, {

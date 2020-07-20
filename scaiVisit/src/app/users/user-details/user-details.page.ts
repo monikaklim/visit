@@ -33,7 +33,7 @@ export class UserDetailsPage implements OnInit {
        else{
         this.userId = paramMap.get('userId');
         this.isLoading = true;
-        this.user = this.usersService.getUser(paramMap.get('userId'));
+        this.user = this.usersService.getUserById(paramMap.get('userId'));
 
         if(this.user){
           this.isLoading = false;

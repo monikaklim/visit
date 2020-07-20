@@ -42,17 +42,18 @@ export class LoginPage {
               this.authService.setToken(res.body["token"]);
               localforage.setItem("token", res.body["token"]);
              localStorage.setItem("token",res.body["token"]);
+
               this.sharedService.fetchSedi().subscribe( response => {
                 if(response.status == 200){
                   this.sharedService.setSedi(response.body["location"]);
                 }else if(response.status == 403){
-                  
+                  this.navCtrl.navigateRoot('login');
                 }
               })
               localforage.getItem("options").then((result) => {
                 if(result){
                   this.sharedService.setSede(result["domain"]);
-                  this.navCtrl.navigateRoot('home');
+                  this.navCtrl.navigateRoot('users');
                   loadingEl.dismiss();
                 }else{
                   let opzioni = {
@@ -60,7 +61,7 @@ export class LoginPage {
                   }
                   this.sharedService.setSede(this.sharedService.getSede());
                   localforage.setItem("options", opzioni);
-                  this.navCtrl.navigateRoot('home');
+                  this.navCtrl.navigateRoot('users');
                   loadingEl.dismiss();
                 }
               })
@@ -112,7 +113,12 @@ export class LoginPage {
         }
       },
       () => {
-        console.log('Login successful');}
+       
+         
+          console.log("Login successful")
+    
+  
+      }
     );
    
   });

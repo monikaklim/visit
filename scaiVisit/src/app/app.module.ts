@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptorService } from './login/auth-interceptor.service';
 import { SignaturePadModule } from 'angular2-signaturepad';
+import { FileOpener } from "@ionic-native/file-opener/ngx";
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule,HttpClientModule, IonicModule.forRoot(), AppRoutingModule,SignaturePadModule],
   providers: [
+    FileOpener,
     StatusBar,
     SplashScreen,
     {provide:HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi:true},

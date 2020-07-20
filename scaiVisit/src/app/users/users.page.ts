@@ -7,9 +7,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CompaniesService } from '../companies/companies.service';
 import { Company } from './../companies/company.model';
 
-
-
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.page.html',
@@ -36,13 +33,14 @@ let filteredUsers = this.usersService.getFilteredUsers();
       this.usersService.fetchUsers();
      await this.loadingController.create({
       message: "Caricamento visitatori...", spinner:"bubbles", backdropDismiss:true
-     }).then(loadingEl => {this.users =  this.usersService.getUsers();
+     }).then(loadingEl => {
+       this.users =  this.usersService.getUsers();
         loadingEl.present(); 
         this.usersChangeSubscription = this.usersService.usersChanged.subscribe(users  => {
         this.users = users;  
          loadingEl.dismiss()
             });
-      });
+      }).catch(loadingEl => loadingEl.dismiss());
   }
 }
 
@@ -50,20 +48,20 @@ let filteredUsers = this.usersService.getFilteredUsers();
 
  ngOnInit() {
 
- this.loadUsers();
+  if(this.users.length == 0)
+  this.loadUsers();
 
- this.companiesService.fetchCompanies();
- this.companies = this.companiesService.getCompanies();
- this.companiesChangedSubscription =  this.companiesService.companiesChanged.subscribe(companies => {
-   this.companies = companies
- })
+  this.companiesService.fetchCompanies();
+  this.companies = this.companiesService.getCompanies();
+  this.companiesChangedSubscription =  this.companiesService.companiesChanged.subscribe(companies => {
+    this.companies = companies
+  })
 
- this.filteredUsersChangeSubscription = this.usersService.filteredUsersChanged.subscribe(users  => {
-  this.users = users;
-  if(users.length > 0 && users)
-  this.isFiltered = true;
-     
- });
+  this.filteredUsersChangeSubscription = this.usersService.filteredUsersChanged.subscribe(users  => {
+    this.users = users;
+    if(users.length > 0 && users)
+    this.isFiltered = true;  
+  });
 
   }
 

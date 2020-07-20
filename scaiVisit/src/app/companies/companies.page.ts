@@ -43,7 +43,7 @@ export class CompaniesPage implements OnInit {
      }).then(loadingEl => {
        loadingEl.present();
       this.loadCompanies();
-      loadingEl.dismiss()})
+      loadingEl.dismiss()}).catch(loadingEl => loadingEl.dismiss());
     }
   
   

@@ -1,5 +1,8 @@
 {
   "name": "scaiVisit",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
   "type": "angular"
 }

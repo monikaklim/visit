@@ -4,6 +4,8 @@ import {environment} from './../../environments/environment';
 import { Subject } from 'rxjs';
 import { User } from './user.model';
 import { LoadingController } from '@ionic/angular';
+import { take } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,9 @@ constructor(public http: HttpClient, public loadingController:LoadingController)
 }
 
 private users:User[] = [];
+private _user:User;
 usersChanged = new Subject<User[]>();
+userChanged = new Subject<User>();
 private filteredUsers:User[] = [];
 filteredUsersChanged = new Subject<User[]>();
 
@@ -26,10 +30,24 @@ getUsers(){
 }
 
 
-getUser(userId:string){
+getUser(userId){
+  return this.http.get<User>(this.apiUrl + "user/"+ userId).pipe(take(1));
+  }
+
+getUserById(userId){
   const users = this.users.slice();
-  return users.find(user => user.userId == userId);
+  return users.find(user => user.userId == userId)
 }
+  
+setUser(user:User){
+this._user = user;
+this.userChanged.next(this._user);
+}
+
+get user (){
+  return this._user;
+}
+
 
 setUsers(users){
   this.users = users;
