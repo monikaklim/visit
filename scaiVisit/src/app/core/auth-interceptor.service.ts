@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpParams, HttpHeaders, HttpInterceptor } from '@angular/common/http';
-import { AuthService } from './auth.service';
+import { HttpRequest, HttpHandler, HttpHeaders, HttpInterceptor } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import * as localforage from "localforage";
+import { AuthService } from '../login/auth.service';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {

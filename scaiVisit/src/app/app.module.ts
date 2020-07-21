@@ -7,7 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthInterceptorService } from './login/auth-interceptor.service';
+import { AuthInterceptorService } from './core/auth-interceptor.service';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { FileOpener } from "@ionic-native/file-opener/ngx";
 

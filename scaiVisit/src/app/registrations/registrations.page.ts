@@ -36,21 +36,20 @@ export class RegistrationsPage implements OnInit {
   
 async loadRegistrations(){
   await this.loadingController.create({
-    message: "Caricamento...", spinner:"bubbles", backdropDismiss:true
+    message: "Caricamento registrazioni...", spinner:"bubbles", backdropDismiss:true
    }).then(loadingEl => {
     this.registrations = this.registrationsService.getRegistrations();  
       loadingEl.present(); 
     
       this.registrationsChangeSubscription = this.registrationsService.registrationsChanged.subscribe(registrations  => {
         this.registrations = registrations;
-
-       loadingEl.dismiss();
-
     });      
 
       this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
         this.response = res; 
        });   
+
+       loadingEl.dismiss();
 }).catch(loadingEl => loadingEl.dismiss());
 }
 
@@ -95,6 +94,10 @@ async loadRegistrations(){
      this.countvisitChangeSubscription = this.registrationsService.countvisitChanged.subscribe(countvisit  => {
      this.countvisit = countvisit; 
     });
+    
+    this.responseChangeSubscription = this.registrationsService.responseChanged.subscribe(res  => {
+      this.response = res; 
+     }); 
   }
 
  checkOut(firstName:string,lastName:string,idRegistration){
