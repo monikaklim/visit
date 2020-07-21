@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, Route, UrlSegment } from '@angular/router';
+import { CanLoad,  Router, Route, UrlSegment } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
 import * as localforage from "localforage";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
-  
+  constructor( private router: Router) {}
   
   canLoad(
     route: Route,
