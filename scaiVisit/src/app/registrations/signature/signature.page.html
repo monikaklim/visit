@@ -19,7 +19,7 @@
     <ion-col></ion-col>
     <ion-col  class="ion-align-self-center">
       <signature-pad
-
+      (onBeginEvent) = "drawStart()"
       [options]="signaturePadOptions"
       id="signatureCanvas"
       #signatureCanvas
@@ -31,7 +31,7 @@
       <ion-col size-sm="6" offset-sm="3" class = "ion-margin">
         <ion-button  color="scaiblue"fill="clear"  expand="block" (click)="clear()" >Annulla</ion-button>
         <br/>
-        <ion-button  color="scaiblue" shape = "round"  expand="block"  (click)="sign()" >Firma</ion-button>
+        <ion-button  color="scaiblue" shape = "round"  expand="block"  (click)="sign()" [disabled] = "isCanvasClear">Firma</ion-button>
 
        
       </ion-col>

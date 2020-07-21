@@ -13,7 +13,7 @@ import { RegistrationsService } from './../registrations.service';
   styleUrls: ['./signature.page.scss'],
 })
 export class SignaturePage implements OnInit{
-
+isCanvasClear:boolean = true;
 @ViewChild("signatureCanvas", {static:false}) private signatureCanvas: any;
 
 public signaturePadOptions = {
@@ -41,30 +41,29 @@ constructor(
 ngOnInit() {
 
 this.route.queryParamMap.subscribe(paramMap => {
-  if( paramMap.get('userId') && paramMap.get('companyId') && paramMap.get('type') ){
-    this.userId = paramMap.get('userId');
-        this.companyId = paramMap.get('companyId');
-        this.registrationType = +paramMap.get('type');
-  }else{
-      if( paramMap.get('registrationId') && paramMap.get('type')){
-        this.registrationType = +paramMap.get('type');
-        this.registrationId = paramMap.get('registrationId');
-      }
-      else{
-        console.warn("no query params")
-      }
-  }
-     
-}); 
-  
+    if( paramMap.get('userId') && paramMap.get('companyId') && paramMap.get('type') ){
+      this.userId = paramMap.get('userId');
+          this.companyId = paramMap.get('companyId');
+          this.registrationType = +paramMap.get('type');
+    }else{
+        if( paramMap.get('registrationId') && paramMap.get('type')){
+          this.registrationType = +paramMap.get('type');
+          this.registrationId = paramMap.get('registrationId');
+        }
+        else{
+          console.warn("no query params")
+        }
+    }    
+  });  
+}
+
+drawStart(){
+  this.isCanvasClear = false;
 }
 
 
 
-
-
 sign() {
- 
 let visit;
 const signatureImage = this.signatureCanvas.toDataURL('image/jpeg');
 if(this.registrationType == 1)
@@ -79,7 +78,7 @@ if(this.registrationType == 2){
 this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingEl =>{
   loadingEl.present();  
   this.registrationsService.saveRegistration(visit,"Torino");
-  this.signatureCanvas.clear();
+  this.clear();
   this.navController.navigateForward('/registrations');
   loadingEl.dismiss();
 })
@@ -87,6 +86,7 @@ this.loadingController.create({message:"Salvataggio in corso..."}).then(loadingE
 
 clear() {
   this.signatureCanvas.clear();
+  this.isCanvasClear = true;
 }
 
 
